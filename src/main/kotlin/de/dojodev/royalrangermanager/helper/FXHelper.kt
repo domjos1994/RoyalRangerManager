@@ -3,7 +3,9 @@ package de.dojodev.royalrangermanager.helper
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.image.Image
+import javafx.stage.FileChooser
 import javafx.stage.Stage
+import java.io.File
 import java.net.URLClassLoader
 import java.util.Locale
 import java.util.ResourceBundle
@@ -18,8 +20,10 @@ class FXHelper {
         private const val ICON_PATH = "/icons/"
 
         private var bundle: ResourceBundle? = null
+        private var stage: Stage = Stage()
 
         fun loadFXML(name: String, title: String, width: Double, height: Double, stage: Stage = Stage(), css: String = "main.css", icon: String = "icon.png"): Stage {
+            this.stage = stage
             val resource = FXHelper::class.java.getResource("$FXML_PATH$name")
             if(resource != null) {
                 val loader = FXMLLoader(resource, getBundle())
@@ -31,6 +35,20 @@ class FXHelper {
                 stage.show()
             }
             return stage
+        }
+
+        fun getFileChooser(create: Boolean, path: String = "", title: String = "", extensions: List<FileChooser.ExtensionFilter> = listOf()): String {
+            val fc = FileChooser()
+            fc.title = title
+            if(path.isNotEmpty()) {
+                fc.initialDirectory = File(path)
+            }
+            fc.extensionFilters.addAll(extensions)
+            return if(create) {
+                fc.showSaveDialog(this.stage)?.absolutePath ?: ""
+            } else {
+                fc.showOpenDialog(this.stage)?.absolutePath ?: ""
+            }
         }
 
         fun addStyleSheet(stage: Stage, name: String = "main.css") {

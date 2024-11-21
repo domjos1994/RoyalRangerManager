@@ -11,6 +11,12 @@ module de.dojodev.royalrangermanager {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 
+    requires org.mybatis;
+    requires org.xerial.sqlitejdbc;
+    requires java.sql;
+    requires org.slf4j;
+    requires java.prefs;
+
     opens de.dojodev.royalrangermanager to javafx.fxml;
     opens de.dojodev.royalrangermanager.controller to javafx.fxml;
     exports de.dojodev.royalrangermanager;
