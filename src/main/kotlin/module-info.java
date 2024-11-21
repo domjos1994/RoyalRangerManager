@@ -12,5 +12,6 @@ module de.dojodev.royalrangermanager {
     requires eu.hansolo.tilesfx;
 
     opens de.dojodev.royalrangermanager to javafx.fxml;
+    opens de.dojodev.royalrangermanager.controller to javafx.fxml;
     exports de.dojodev.royalrangermanager;
 }

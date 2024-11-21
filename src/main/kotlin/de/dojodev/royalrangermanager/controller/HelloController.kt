@@ -1,4 +1,4 @@
-package de.dojodev.royalrangermanager
+package de.dojodev.royalrangermanager.controller
 
 import javafx.fxml.FXML
 import javafx.scene.control.Label
