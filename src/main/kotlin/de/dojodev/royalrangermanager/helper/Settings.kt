@@ -7,6 +7,7 @@ class Settings {
 
     companion object {
         const val KEY_LAST_PROJECT = "LAST-PROJECT"
+        const val KEY_RECENT_LIST = "RECENT-LIST"
     }
 
     fun <T> saveSetting(key: String, value: T) {
@@ -20,6 +21,7 @@ class Settings {
             is Boolean -> this.preferences.putBoolean(key, value)
             else -> this.preferences.put(key, value.toString())
         }
+        this.preferences.sync()
     }
 
     @Suppress("UNCHECKED_CAST")

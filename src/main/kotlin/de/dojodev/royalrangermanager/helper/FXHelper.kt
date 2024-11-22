@@ -1,5 +1,7 @@
 package de.dojodev.royalrangermanager.helper
 
+import de.dojodev.royalrangermanager.controller.MainController
+import de.dojodev.royalrangermanager.controller.SubController
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.image.Image
@@ -21,6 +23,10 @@ class FXHelper {
 
         private var bundle: ResourceBundle? = null
         private var stage: Stage = Stage()
+
+        fun getStage(): Stage {
+            return this.stage
+        }
 
         fun loadFXML(name: String, title: String, width: Double, height: Double, stage: Stage = Stage(), css: String = "main.css", icon: String = "icon.png"): Stage {
             this.stage = stage
@@ -92,6 +98,10 @@ class FXHelper {
                     return bundle!!
                 }
             }
+        }
+
+        fun initSubControllers(mainController: MainController, controllers: List<SubController>) {
+            controllers.forEach { it.init(mainController) }
         }
     }
 }

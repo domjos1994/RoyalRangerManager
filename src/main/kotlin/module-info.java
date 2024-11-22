@@ -8,6 +8,7 @@ module de.dojodev.royalrangermanager {
     requires com.dlsc.formsfx;
     requires net.synedra.validatorfx;
     requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.fontawesome;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 
