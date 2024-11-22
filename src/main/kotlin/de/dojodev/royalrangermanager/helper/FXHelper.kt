@@ -3,10 +3,13 @@ package de.dojodev.royalrangermanager.helper
 import de.dojodev.royalrangermanager.controller.MainController
 import de.dojodev.royalrangermanager.controller.SubController
 import javafx.fxml.FXMLLoader
+import javafx.geometry.Pos
 import javafx.scene.Scene
 import javafx.scene.image.Image
 import javafx.stage.FileChooser
 import javafx.stage.Stage
+import org.controlsfx.control.Notifications
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.net.URLClassLoader
 import java.util.Locale
@@ -23,6 +26,9 @@ class FXHelper {
 
         private var bundle: ResourceBundle? = null
         private var stage: Stage = Stage()
+        private var logger = LoggerFactory.getLogger(FXHelper::class.java)
+        private var success = ""
+        private var successText = ""
 
         fun getStage(): Stage {
             return this.stage
@@ -57,6 +63,30 @@ class FXHelper {
             }
         }
 
+        fun printNotification(msg: Any, title: String = "") {
+            val notifications = Notifications.create()
+            notifications.owner(this.stage)
+            notifications.position(Pos.BASELINE_CENTER)
+            when(msg) {
+                is Exception -> {
+                    notifications.title(title.ifEmpty { "Exception" })
+                    notifications.text(msg.message)
+                    notifications.darkStyle().showError()
+                    logger.error(title.ifEmpty { "Exception" }, msg)
+                }
+                is String -> {
+                    notifications.title(title.ifEmpty { msg })
+                    notifications.text(msg)
+                    notifications.darkStyle().showInformation()
+                    logger.info(msg)
+                }
+            }
+        }
+
+        fun printSuccess() {
+            printNotification(successText, success)
+        }
+
         fun addStyleSheet(stage: Stage, name: String = "main.css") {
             if(stage.scene != null) {
                 val resource = FXHelper::class.java.getResource("$CSS_PATH$name")
@@ -83,9 +113,13 @@ class FXHelper {
                 } else {
                     ResourceBundle.getBundle("lang", Locale.ENGLISH, loader)
                 }
+                this.success = bundle?.getString("msg.success") ?: ""
+                this.successText = bundle?.getString("msg.success.text") ?: ""
                 return bundle!!
             } else {
                 if(bundle != null) {
+                    this.success = bundle?.getString("msg.success") ?: ""
+                    this.successText = bundle?.getString("msg.success.text") ?: ""
                     return bundle!!
                 } else {
                     val urls = arrayOf(FXHelper::class.java.getResource(LANG_PATH))
@@ -95,6 +129,8 @@ class FXHelper {
                     } else {
                         ResourceBundle.getBundle("lang", Locale.ENGLISH, loader)
                     }
+                    this.success = bundle?.getString("msg.success") ?: ""
+                    this.successText = bundle?.getString("msg.success.text") ?: ""
                     return bundle!!
                 }
             }

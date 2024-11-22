@@ -60,29 +60,33 @@ class MainController : Initializable {
         this.initIcons()
 
         this.mnuProgram.setOnShowing {
-            mnuProgramProjectOpen.isDisable = project.isOpen()
-            mnuProgramProjectRecent.isDisable = project.isOpen()
-            mnuProgramProjectCreate.isDisable = project.isOpen()
-            mnuProgramProjectClose.isDisable = !project.isOpen()
+            try {
+                mnuProgramProjectOpen.isDisable = project.isOpen()
+                mnuProgramProjectRecent.isDisable = project.isOpen()
+                mnuProgramProjectCreate.isDisable = project.isOpen()
+                mnuProgramProjectClose.isDisable = !project.isOpen()
 
-            // update recent projects
-            this.mnuProgramProjectRecent.items.clear()
-            val settings = Settings()
-            val recent = settings.getSetting(Settings.KEY_RECENT_LIST, "")
-            val items = recent.split(",")
+                // update recent projects
+                this.mnuProgramProjectRecent.items.clear()
+                val settings = Settings()
+                val recent = settings.getSetting(Settings.KEY_RECENT_LIST, "")
+                val items = recent.split(",")
 
-            items.forEach { item ->
-                val file = File(item.trim())
-                if(file.exists() && file.isFile) {
-                    val mnuItem = MenuItem()
-                    mnuItem.text = file.absolutePath
-                    mnuItem.setOnAction {
-                        project.close()
-                        project.open(file.absolutePath)
-                        this.setData()
+                items.forEach { item ->
+                    val file = File(item.trim())
+                    if(file.exists() && file.isFile) {
+                        val mnuItem = MenuItem()
+                        mnuItem.text = file.absolutePath
+                        mnuItem.setOnAction {
+                            project.close()
+                            project.open(file.absolutePath)
+                            this.setData()
+                        }
+                        this.mnuProgramProjectRecent.items.add(mnuItem)
                     }
-                    this.mnuProgramProjectRecent.items.add(mnuItem)
                 }
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
             }
         }
 
@@ -91,45 +95,68 @@ class MainController : Initializable {
         }
 
         this.mnuProgramProjectCreate.setOnAction {
-            val name = FXHelper.getFileChooser(true, extensions = listOf(extension))
-            if(name.isNotEmpty()) {
-                project.close()
-                project.create(name)
-                this.setData()
-                project.save()
+            try {
+                val name = FXHelper.getFileChooser(true, extensions = listOf(extension))
+                if(name.isNotEmpty()) {
+                    project.close()
+                    project.create(name)
+                    this.setData()
+                    project.save()
+                    FXHelper.printSuccess()
+                }
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
             }
         }
 
         this.mnuProgramProjectOpen.setOnAction {
-            val name = FXHelper.getFileChooser(false, extensions = listOf(extension))
-            if(name.isNotEmpty()) {
-                project.close()
-                project.open(name)
-                this.setData()
+            try {
+                val name = FXHelper.getFileChooser(false, extensions = listOf(extension))
+                if(name.isNotEmpty()) {
+                    project.close()
+                    project.open(name)
+                    this.setData()
+                    FXHelper.printSuccess()
+                }
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
             }
         }
 
         this.mnuProgramProjectClose.setOnAction {
-            project.close()
-            this.setData()
+            try {
+                project.close()
+                this.setData()
+                FXHelper.printSuccess()
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
+            }
         }
 
 
         this.mnuProgramClose.setOnAction {
-            project.close()
-            exitProcess(0)
+            try {
+                project.close()
+                exitProcess(0)
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
+            }
         }
 
         this.tbcMain.selectionModel.selectedItemProperty().addListener { _, _, c ->
-            val name = FXHelper.getBundle().getString("name")
-            if(name == c.text) {
-                FXHelper.getStage().title = c.text
-            } else {
-                FXHelper.getStage().title = "$name - ${c.text}"
-            }
-            when(c.text) {
-                p1?.getString("name") -> homeController.initControls()
-                p1?.getString("main.program.settings") -> settingsController.initControls()
+            try {
+                val name = FXHelper.getBundle().getString("name")
+                if(name == c.text) {
+                    FXHelper.getStage().title = c.text
+                } else {
+                    FXHelper.getStage().title = "$name - ${c.text}"
+                }
+                when(c.text) {
+                    p1?.getString("name") -> homeController.initControls()
+                    p1?.getString("main.program.settings") -> settingsController.initControls()
+                }
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
             }
         }
 
@@ -139,12 +166,16 @@ class MainController : Initializable {
     }
 
     private fun initIcons() {
-        this.setIcon(this.cmdHome, FontAwesome.Glyph.HOME)
-        this.setIcon(this.cmdNew, FontAwesome.Glyph.PLUS)
-        this.setIcon(this.cmdEdit, FontAwesome.Glyph.EDIT)
-        this.setIcon(this.cmdDelete, FontAwesome.Glyph.MINUS)
-        this.setIcon(this.cmdSave, FontAwesome.Glyph.SAVE)
-        this.setIcon(this.cmdCancel, FontAwesome.Glyph.CLOSE)
+        try {
+            this.setIcon(this.cmdHome, FontAwesome.Glyph.HOME)
+            this.setIcon(this.cmdNew, FontAwesome.Glyph.PLUS)
+            this.setIcon(this.cmdEdit, FontAwesome.Glyph.EDIT)
+            this.setIcon(this.cmdDelete, FontAwesome.Glyph.MINUS)
+            this.setIcon(this.cmdSave, FontAwesome.Glyph.SAVE)
+            this.setIcon(this.cmdCancel, FontAwesome.Glyph.CLOSE)
+        } catch (ex: Exception) {
+            FXHelper.printNotification(ex)
+        }
     }
 
     private fun setIcon(cmd: Button, glyph: FontAwesome.Glyph) {
@@ -154,11 +185,15 @@ class MainController : Initializable {
     }
 
     fun setData() {
-        if(this.project.isOpen()) {
-            val props = project.getProperties("config.properties")
-            this.lblDB.text = props?.getProperty("url") ?: ""
-        } else {
-            this.lblDB.text = ""
+        try {
+            if(this.project.isOpen()) {
+                val props = project.getProperties("config.properties")
+                this.lblDB.text = props?.getProperty("url") ?: ""
+            } else {
+                this.lblDB.text = ""
+            }
+        } catch (ex: Exception) {
+            FXHelper.printNotification(ex)
         }
     }
 }
