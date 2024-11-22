@@ -81,7 +81,7 @@ class DBHelper {
 
             // execute update
             var stream: InputStream?
-            var cv = version
+            var cv = version + 1
             do {
                 stream = DBHelper::class.java.getResourceAsStream("/sql/${cv}_$part.sql")
                 if(stream != null) {
