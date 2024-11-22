@@ -20,5 +20,7 @@ module de.dojodev.royalrangermanager {
 
     opens de.dojodev.royalrangermanager to javafx.fxml;
     opens de.dojodev.royalrangermanager.controller to javafx.fxml;
+    opens de.dojodev.royalrangermanager.db.model;
+    opens de.dojodev.royalrangermanager.db.mapper;
     exports de.dojodev.royalrangermanager;
 }

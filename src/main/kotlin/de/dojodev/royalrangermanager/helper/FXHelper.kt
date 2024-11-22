@@ -26,7 +26,7 @@ class FXHelper {
 
         private var bundle: ResourceBundle? = null
         private var stage: Stage = Stage()
-        private var logger = LoggerFactory.getLogger(FXHelper::class.java)
+        var logger = LoggerFactory.getLogger(FXHelper::class.java)
         private var success = ""
         private var successText = ""
 

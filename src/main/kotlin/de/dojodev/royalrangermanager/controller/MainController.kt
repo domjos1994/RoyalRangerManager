@@ -1,5 +1,6 @@
 package de.dojodev.royalrangermanager.controller
 
+import de.dojodev.royalrangermanager.helper.DBHelper
 import de.dojodev.royalrangermanager.helper.FXHelper
 import de.dojodev.royalrangermanager.helper.Project
 import de.dojodev.royalrangermanager.helper.Settings
@@ -55,7 +56,7 @@ class MainController : Initializable {
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         FXHelper.initSubControllers(this, listOf(homeController, settingsController))
         val extension = FileChooser.ExtensionFilter("Project", "*.rrm")
-        this.lblProject.textProperty().bind(this.project.getPath())
+        this.project.getPath().addListener {_,_,v -> lblProject.text = v}
         this.setData()
         this.initIcons()
 
@@ -102,6 +103,7 @@ class MainController : Initializable {
                     project.create(name)
                     this.setData()
                     project.save()
+                    DBHelper.initBatis()
                     FXHelper.printSuccess()
                 }
             } catch (ex: Exception) {
@@ -116,6 +118,7 @@ class MainController : Initializable {
                     project.close()
                     project.open(name)
                     this.setData()
+                    DBHelper.initBatis()
                     FXHelper.printSuccess()
                 }
             } catch (ex: Exception) {
@@ -125,6 +128,7 @@ class MainController : Initializable {
 
         this.mnuProgramProjectClose.setOnAction {
             try {
+                DBHelper.close()
                 project.close()
                 this.setData()
                 FXHelper.printSuccess()
@@ -189,6 +193,9 @@ class MainController : Initializable {
             if(this.project.isOpen()) {
                 val props = project.getProperties("config.properties")
                 this.lblDB.text = props?.getProperty("url") ?: ""
+
+                DBHelper.close()
+                DBHelper.initBatis()
             } else {
                 this.lblDB.text = ""
             }
