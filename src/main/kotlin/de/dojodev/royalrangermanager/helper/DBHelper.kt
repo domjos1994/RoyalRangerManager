@@ -20,7 +20,7 @@ class DBHelper {
             val stream = DBHelper::class.java.getResourceAsStream(CONFIG)
             if(stream != null) {
                 val factory = SqlSessionFactoryBuilder().build(stream, props)
-                session = factory.openSession()
+                session = factory.openSession(true)
                 stream.close()
                 this.init()
             }

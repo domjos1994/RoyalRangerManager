@@ -1,11 +1,7 @@
 package de.dojodev.royalrangermanager.db.mapper
 
 import de.dojodev.royalrangermanager.db.model.User
-import org.apache.ibatis.annotations.Delete
-import org.apache.ibatis.annotations.Insert
-import org.apache.ibatis.annotations.Param
-import org.apache.ibatis.annotations.Select
-import org.apache.ibatis.annotations.Update
+import org.apache.ibatis.annotations.*
 
 interface UserMapper {
 
@@ -21,12 +17,28 @@ interface UserMapper {
     @Select("SELECT * FROM users WHERE userName=#{user} AND password=#{password}")
     fun login(@Param("user") user: String, @Param("password") password: String): User?
 
-    @Insert
+    @Insert(
+        "INSERT INTO " +
+                "users(" +
+                    "userName, password, gender, email, " +
+                    "admin, trunkLeader, trunkWait, trunkHelper, leader, juniorLeader" +
+                ") " +
+                "VALUES(" +
+                    "#{userName}, #{password}, #{gender}, #{email}," +
+                    "#{admin}, #{trunkLeader}, #{trunkWait}, #{trunkHelper}, #{leader}, #{juniorLeader}" +
+                ")"
+    )
+    @SelectKey(statement=["select max(id) as id from users"], keyProperty="id", before=false, resultType=Int::class)
     fun insert(user: User): Int
 
-    @Update
+    @Update(
+        "UPDATE users SET " +
+                "userName=#{userName}, password=#{password}, gender=#{gender}, email=#{email}," +
+                "admin=#{admin}, trunkLeader=#{trunkLeader}, trunkWait=#{trunkWait}, trunkHelper=#{trunkHelper}," +
+                "leader=#{leader}, juniorLeader=#{juniorLeader} WHERE id=#{id}"
+    )
     fun update(user: User)
 
-    @Delete
+    @Delete("DELETE FROM users WHERE id=#{id}")
     fun delete(user: User)
 }
