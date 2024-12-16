@@ -20,8 +20,11 @@
           <Tab fx:id="tbMain" text="%name">
             <fx:include fx:id="home" source="home.fxml"/>
           </Tab>
-          <Tab fx:id="tbSettings" text="%main.program.settings">
-            <fx:include fx:id="settings" source="settings.fxml"/>
+            <Tab fx:id="tbSettings" text="%main.program.settings">
+                <fx:include fx:id="settings" source="settings.fxml"/>
+            </Tab>
+          <Tab fx:id="tbUsers" text="%main.system.user">
+            <fx:include fx:id="users" source="users.fxml"/>
           </Tab>
         </tabs>
       </TabPane>
@@ -39,6 +42,9 @@
                   <MenuItem fx:id="mnuProgramClose" mnemonicParsing="false" text="%main.program.close" />
             </items>
           </Menu>
+            <Menu fx:id="mnuSystem" mnemonicParsing="false" text="%main.system">
+                <MenuItem fx:id="mnuSystemUsers" mnemonicParsing="false" text="%main.system.user"/>
+            </Menu>
         </menus>
       </MenuBar>
       <ToolBar maxHeight="30.0" minHeight="30.0" prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">

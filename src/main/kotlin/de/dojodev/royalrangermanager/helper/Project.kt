@@ -1,5 +1,6 @@
 package de.dojodev.royalrangermanager.helper
 
+import de.dojodev.royalrangermanager.db.model.User
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.property.StringProperty
 import java.io.File
@@ -21,6 +22,7 @@ import java.util.zip.ZipOutputStream
 class Project {
     private var path: StringProperty
     private var isOpen: Boolean = false
+    private var user: User? = null
     private val settings = Settings()
     private lateinit var tmp: String
     private val files = mutableListOf<String>()
@@ -70,6 +72,14 @@ class Project {
      */
     fun getPath(): StringProperty {
         return this.path
+    }
+
+    fun setUser(user: User?) {
+        this.user = user
+    }
+
+    fun getUser(): User? {
+        return this.user
     }
 
     /**

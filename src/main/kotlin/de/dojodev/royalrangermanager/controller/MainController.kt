@@ -32,6 +32,10 @@ class MainController : Initializable {
     @FXML private lateinit var mnuProgramProjectClose: MenuItem
     @FXML private lateinit var mnuProgramClose: MenuItem
 
+    // program system
+    @FXML private lateinit var mnuSystem: Menu
+    @FXML private lateinit var mnuSystemUsers: MenuItem
+
     // toolbar
     @FXML private lateinit var cmdHome: Button
     @FXML lateinit var cmdNew: Button
@@ -44,6 +48,7 @@ class MainController : Initializable {
     @FXML private lateinit var tbcMain: TabPane
     @FXML private lateinit var tbMain: Tab
     @FXML private lateinit var tbSettings: Tab
+    @FXML private lateinit var tbUsers: Tab
 
     @FXML lateinit var pbMain: ProgressBar
     @FXML private lateinit var lblProject: Label
@@ -51,12 +56,13 @@ class MainController : Initializable {
 
     @FXML private lateinit var settingsController: SettingsController
     @FXML private lateinit var homeController: HomeController
+    @FXML private lateinit var usersController: UsersController
 
     private val project = Project.get()
     private var user: User? = null
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        FXHelper.initSubControllers(this, listOf(homeController, settingsController))
+        FXHelper.initSubControllers(this, listOf(homeController, settingsController, usersController))
         val extension = FileChooser.ExtensionFilter("Project", "*.rrm")
         this.project.getPath().addListener {_,_,v -> lblProject.text = v}
         this.setData()
@@ -153,6 +159,20 @@ class MainController : Initializable {
             }
         }
 
+
+        this.mnuSystem.setOnShowing {
+            try {
+                val user = Project.get().getUser()
+                this.mnuSystemUsers.isDisable = user == null
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
+            }
+        }
+
+        this.mnuSystemUsers.setOnAction {
+            this.tbcMain.selectionModel.select(this.tbUsers)
+        }
+
         this.tbcMain.selectionModel.selectedItemProperty().addListener { _, _, c ->
             try {
                 val name = FXHelper.getBundle().getString("name")
@@ -164,6 +184,7 @@ class MainController : Initializable {
                 when(c.text) {
                     p1?.getString("name") -> homeController.initControls()
                     p1?.getString("main.program.settings") -> settingsController.initControls()
+                    p1?.getString("main.system.user") -> usersController.initControls()
                 }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)

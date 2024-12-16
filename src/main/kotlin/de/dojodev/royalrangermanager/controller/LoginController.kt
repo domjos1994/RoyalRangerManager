@@ -2,6 +2,7 @@ package de.dojodev.royalrangermanager.controller
 
 import de.dojodev.royalrangermanager.db.model.User
 import de.dojodev.royalrangermanager.helper.FXHelper
+import de.dojodev.royalrangermanager.helper.Project
 import de.dojodev.royalrangermanager.repositories.UserRepository
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -26,6 +27,8 @@ class LoginController : Initializable {
 
     @FXML private lateinit var txtUserName: TextField
     @FXML private lateinit var txtPassword: PasswordField
+    @FXML private lateinit var txtPasswordNew: PasswordField
+    @FXML private lateinit var lblPasswordNew: Label
     @FXML private lateinit var txtPasswordRepeat: PasswordField
     @FXML private lateinit var lblPasswordRepeat: Label
 
@@ -35,15 +38,32 @@ class LoginController : Initializable {
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         txtPasswordRepeat.isVisible = updatePassword
         lblPasswordRepeat.isVisible = updatePassword
+        txtPasswordNew.isVisible = updatePassword
+        lblPasswordNew.isVisible = updatePassword
         val repository = UserRepository()
 
         this.cmdLogin.setOnAction {
             try {
-                this.user = repository.login(
-                    txtUserName.text,
-                    txtPassword.text
-                )
-                (this.cmdLogin.scene.window as Stage).close()
+                if(updatePassword) {
+                    if(txtPasswordNew.text.equals(txtPasswordRepeat.text)) {
+                        this.user = repository.updatePassword(
+                            txtUserName.text,
+                            txtPassword.text,
+                            txtPasswordNew.text
+                        )
+                        Project.get().setUser(this.user)
+                        (this.cmdLogin.scene.window as Stage).close()
+                    } else {
+                        throw Exception(FXHelper.getBundle().getString("sys.user.dataPasswordSame"))
+                    }
+                } else {
+                    this.user = repository.login(
+                        txtUserName.text,
+                        txtPassword.text
+                    )
+                    Project.get().setUser(this.user)
+                    (this.cmdLogin.scene.window as Stage).close()
+                }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
             }

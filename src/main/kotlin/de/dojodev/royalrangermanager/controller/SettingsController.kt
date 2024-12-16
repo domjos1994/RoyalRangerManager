@@ -23,12 +23,6 @@ class SettingsController : SubController() {
     @FXML private lateinit var txtPassword: TextField
 
     override fun initControls() {
-        this.cmdNew?.isVisible = false
-        this.cmdEdit?.isVisible = false
-        this.cmdDelete?.isVisible = false
-        this.cmdCancel?.isVisible = false
-        this.cmdSave?.isVisible = true
-
         this.cmdSave?.setOnAction {
             try {
                 val props = this.project.getProperties("config.properties")
@@ -57,6 +51,12 @@ class SettingsController : SubController() {
     }
 
     override fun init() {
+        this.cmdNew?.isVisible = false
+        this.cmdEdit?.isVisible = false
+        this.cmdDelete?.isVisible = false
+        this.cmdCancel?.isVisible = false
+        this.cmdSave?.isVisible = true
+
         this.initDropDown()
         this.initData()
 

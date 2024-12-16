@@ -12,17 +12,28 @@ class UserRepository(
     private val sqlSession: SqlSession? = DBHelper.getSession()
 ) {
     private var userMapper: UserMapper? = null
-    private val md5: MessageDigest
 
+    companion object {
+        private var md5: MessageDigest? = null
+
+        fun encrypt(value: String): String {
+            if(this.md5 == null) {
+                this.md5 = MessageDigest.getInstance("MD5")
+            }
+
+            this.md5?.update(value.encodeToByteArray())
+            val digest = this.md5?.digest()
+            return digest?.decodeToString() ?: ""
+        }
+    }
 
     init {
         this.userMapper = this.sqlSession?.getMapper(UserMapper::class.java)
-        this.md5 = MessageDigest.getInstance("MD5")
 
-        val admin = this.encrypt("admin")
+        val admin = encrypt("admin")
         val users = this.userMapper?.getUsers()
         if(users?.isEmpty() != false) {
-            val user = User(0, admin, admin, 0, "", 1, 0, 0, 0, 0, 0)
+            val user = User(0, "admin", admin, 0, "", 1, 0, 0, 0, 0, 0)
             this.userMapper?.insert(user)
         }
     }
@@ -37,14 +48,31 @@ class UserRepository(
 
     @Throws(Exception::class)
     fun login(user: String, password: String): User {
-        val md5User = this.encrypt(user)
-        val md5Pwd = this.encrypt(password)
+        val md5Pwd = encrypt(password)
 
-        var userObj = this.userMapper?.login(md5User, md5Pwd)
+        var userObj = this.userMapper?.login(user, md5Pwd)
         if(userObj != null) {
             return userObj
         }
-        userObj = this.userMapper?.getUserByName(md5User)
+        userObj = this.userMapper?.getUserByName(user)
+        if(userObj != null) {
+            throw Exception(FXHelper.getBundle().getString("sys.user.dataPassword"))
+        } else {
+            throw Exception(FXHelper.getBundle().getString("sys.user.dataIncorrect"))
+        }
+    }
+
+    @Throws(Exception::class)
+    fun updatePassword(user: String, password: String, newPassword: String): User {
+        val md5Pwd = encrypt(password)
+
+        var userObj = this.userMapper?.login(user, md5Pwd)
+        if(userObj != null) {
+            userObj.password = encrypt(newPassword)
+            this.userMapper?.update(userObj)
+            return userObj
+        }
+        userObj = this.userMapper?.getUserByName(user)
         if(userObj != null) {
             throw Exception(FXHelper.getBundle().getString("sys.user.dataPassword"))
         } else {
@@ -53,11 +81,10 @@ class UserRepository(
     }
 
     fun insertOrUpdate(user: User): Int {
-        user.userName = this.encrypt(user.userName)
-        user.password = this.encrypt(user.password)
         if(user.id != 0) {
             this.userMapper?.update(user)
         } else {
+            user.password = encrypt(user.password)
             user.id = this.userMapper?.insert(user) ?: 0
         }
         return user.id
@@ -65,11 +92,5 @@ class UserRepository(
 
     fun delete(user: User) {
         this.userMapper?.delete(user)
-    }
-
-    private fun encrypt(value: String): String {
-        this.md5.update(value.encodeToByteArray())
-        val digest = this.md5.digest()
-        return digest.decodeToString()
     }
 }

@@ -6,8 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane fx:controller="de.dojodev.royalrangermanager.controller.LoginController" prefHeight="150.0" prefWidth="459.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<AnchorPane prefHeight="188.0" prefWidth="459.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dojodev.royalrangermanager.controller.LoginController">
    <children>
       <Button fx:id="cmdLogin" layoutX="180.0" layoutY="164.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="%user.login" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <Button fx:id="cmdCancel" layoutX="104.0" layoutY="176.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="%sys.cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="120.0" />
@@ -15,7 +14,9 @@
       <Label layoutX="94.0" layoutY="28.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.userName" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
       <Label layoutX="58.0" layoutY="111.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.password" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="40.0" />
       <PasswordField fx:id="txtPassword" layoutX="204.0" layoutY="99.0" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0" />
-      <Label fx:id="lblPasswordRepeat" layoutX="64.0" layoutY="177.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.login.repeat" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0" />
-      <PasswordField fx:id="txtPasswordRepeat" layoutX="274.0" layoutY="165.0" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
+      <Label fx:id="lblPasswordRepeat" layoutX="10.0" layoutY="121.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.login.repeat" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="121.0" />
+      <PasswordField fx:id="txtPasswordRepeat" layoutX="115.0" layoutY="121.0" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="121.0" />
+      <PasswordField fx:id="txtPasswordNew" layoutX="115.0" layoutY="94.0" prefHeight="25.0" prefWidth="334.0" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="94.0" />
+      <Label fx:id="lblPasswordNew" layoutX="68.0" layoutY="98.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.login.new" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="98.0" />
    </children>
 </AnchorPane>
