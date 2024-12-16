@@ -15,7 +15,7 @@
         </environment>
     </environments>
     <mappers>
-        <mapper class="de.dojodev.royalrangermanager.db.mapper.PersonMapper"/>
+        <mapper class="de.dojodev.royalrangermanager.db.mapper.UserMapper"/>
         <mapper class="de.dojodev.royalrangermanager.db.mapper.PropertyMapper"/>
     </mappers>
 </configuration>

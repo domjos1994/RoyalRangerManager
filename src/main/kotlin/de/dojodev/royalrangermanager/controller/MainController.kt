@@ -1,5 +1,6 @@
 package de.dojodev.royalrangermanager.controller
 
+import de.dojodev.royalrangermanager.db.model.User
 import de.dojodev.royalrangermanager.helper.DBHelper
 import de.dojodev.royalrangermanager.helper.FXHelper
 import de.dojodev.royalrangermanager.helper.Project
@@ -52,6 +53,7 @@ class MainController : Initializable {
     @FXML private lateinit var homeController: HomeController
 
     private val project = Project.get()
+    private var user: User? = null
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         FXHelper.initSubControllers(this, listOf(homeController, settingsController))
@@ -105,6 +107,8 @@ class MainController : Initializable {
                     project.save()
                     DBHelper.initBatis()
                     FXHelper.printSuccess()
+                    val controller = LoginController.createDialog()
+                    this.user = controller.getUser()
                 }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
@@ -120,6 +124,8 @@ class MainController : Initializable {
                     this.setData()
                     DBHelper.initBatis()
                     FXHelper.printSuccess()
+                    val controller = LoginController.createDialog()
+                    this.user = controller.getUser()
                 }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)

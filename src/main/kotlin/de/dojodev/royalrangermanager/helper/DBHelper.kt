@@ -9,7 +9,6 @@ import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.util.Properties
 
-@Suppress("MemberVisibilityCanBePrivate", "unused")
 class DBHelper {
 
     companion object {
@@ -25,17 +24,6 @@ class DBHelper {
                 stream.close()
                 this.init()
             }
-        }
-
-        fun runScript(stream: InputStream) {
-            val runner = ScriptRunner(session?.connection)
-            val reader = InputStreamReader(stream)
-            runner.setSendFullScript(false)
-            runner.setErrorLogWriter(PrintWriter(System.out))
-            runner.setStopOnError(true)
-            runner.setDelimiter(";")
-            runner.setAutoCommit(true)
-            runner.runScript(reader)
         }
 
         fun close() {
@@ -94,6 +82,17 @@ class DBHelper {
         private fun getProperties(): Properties? {
             val project = Project.get()
             return project.getProperties("config.properties")
+        }
+
+        private fun runScript(stream: InputStream) {
+            val runner = ScriptRunner(session?.connection)
+            val reader = InputStreamReader(stream)
+            runner.setSendFullScript(false)
+            runner.setErrorLogWriter(PrintWriter(System.out))
+            runner.setStopOnError(true)
+            runner.setDelimiter(";")
+            runner.setAutoCommit(true)
+            runner.runScript(reader)
         }
     }
 }
