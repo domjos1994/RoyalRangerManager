@@ -25,27 +25,45 @@ class UsersController : SubController() {
     private var userRepository: UserRepository? = null
 
     override fun initControls() {
+        this.userRepository = UserRepository()
         super.cmdNew?.isDisable = false
         super.cmdEdit?.isDisable = true
-        super.cmdCancel?.isDisable = true
-        super.cmdSave?.isDisable = false
+        super.cmdCancel?.isDisable = false
+        super.cmdSave?.isDisable = true
         super.cmdDelete?.isDisable = true
+        this.reload()
 
-        val userModel = Project.get().getUser()
-
-        if(userModel != null) {
-            this.userRepository = UserRepository()
-            this.tblUsers.items.clear()
-
-            if(userModel.admin == 1 || userModel.trunkLeader == 1 || userModel.trunkWait == 1 || userModel.trunkHelper == 1) {
-                this.tblUsers.items.addAll(this.userRepository!!.getUsers())
-            } else {
-                this.tblUsers.items.add(userModel)
-            }
+        this.tblUsers.selectionModel.selectedItemProperty().addListener { _ ->
+            super.cmdDelete?.isDisable = this.tblUsers.selectionModel.isEmpty
+            super.cmdSave?.isDisable = this.tblUsers.selectionModel.isEmpty
         }
 
         super.cmdNew?.setOnAction {
             this.tblUsers.items.add(User(0, "", "", 0, "", 0, 0, 0, 0, 0, 0))
+        }
+
+        super.cmdSave?.setOnAction {
+            try {
+                this.tblUsers.selectionModel.selectedItems.forEach { item ->
+                    this.userRepository?.insertOrUpdate(item)
+                }
+                this.reload()
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
+            }
+        }
+
+        super.cmdCancel?.setOnAction { this.reload() }
+
+        super.cmdDelete?.setOnAction {
+            try {
+                this.tblUsers.selectionModel.selectedItems.forEach { item ->
+                    this.userRepository?.delete(item)
+                }
+                this.reload()
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
+            }
         }
 
         val userNameCol = TableColumn<User, String>()
@@ -55,8 +73,6 @@ class UsersController : SubController() {
         userNameCol.onEditCommit = EventHandler {
             try {
                 this.tblUsers.items[it.tablePosition.row].userName = it.newValue
-                this.userRepository!!.insertOrUpdate(this.tblUsers.items[it.tablePosition.row])
-                FXHelper.printSuccess()
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
             }
@@ -70,8 +86,6 @@ class UsersController : SubController() {
         emailCol.onEditCommit = EventHandler {
             try {
                 this.tblUsers.items[it.tablePosition.row].email = it.newValue
-                this.userRepository!!.insertOrUpdate(this.tblUsers.items[it.tablePosition.row])
-                FXHelper.printSuccess()
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
             }
@@ -177,5 +191,25 @@ class UsersController : SubController() {
     }
 
     override fun init() {
+    }
+
+    private fun reload() {
+        try {
+            // reload data
+            val userModel = Project.get().getUser()
+
+            if(userModel != null) {
+                this.tblUsers.items.clear()
+
+                if(userModel.admin == 1 || userModel.trunkLeader == 1 || userModel.trunkWait == 1 || userModel.trunkHelper == 1) {
+                    this.tblUsers.items.addAll(this.userRepository!!.getUsers())
+                } else {
+                    this.tblUsers.items.add(userModel)
+                    this.cmdNew?.isDisable = true
+                }
+            }
+        } catch (ex: Exception) {
+            FXHelper.printNotification(ex)
+        }
     }
 }

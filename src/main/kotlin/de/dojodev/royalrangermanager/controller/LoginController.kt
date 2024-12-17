@@ -40,6 +40,10 @@ class LoginController : Initializable {
         lblPasswordRepeat.isVisible = updatePassword
         txtPasswordNew.isVisible = updatePassword
         lblPasswordNew.isVisible = updatePassword
+        txtUserName.isDisable = LoginController.user.isNotEmpty()
+        txtUserName.text = LoginController.user
+        txtPassword.isDisable = empty
+
         val repository = UserRepository()
 
         this.cmdLogin.setOnAction {
@@ -80,9 +84,13 @@ class LoginController : Initializable {
 
     companion object {
         private var updatePassword: Boolean = false
+        private var empty: Boolean = false
+        private var user: String = ""
 
-        fun createDialog(updatePassword: Boolean = false): LoginController {
+        fun createDialog(updatePassword: Boolean = false, user: String = "", empty: Boolean = false): LoginController {
             this.updatePassword = updatePassword
+            this.empty = empty
+            this.user = user
 
             val loader = FXMLLoader(LoginController::class.java.getResource("/fxml/login.fxml"), FXHelper.getBundle())
             val root = loader.load<Parent>()

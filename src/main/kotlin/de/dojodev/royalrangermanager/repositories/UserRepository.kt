@@ -1,5 +1,6 @@
 package de.dojodev.royalrangermanager.repositories
 
+import de.dojodev.royalrangermanager.controller.LoginController
 import de.dojodev.royalrangermanager.db.mapper.UserMapper
 import de.dojodev.royalrangermanager.db.model.User
 import de.dojodev.royalrangermanager.helper.DBHelper
@@ -80,17 +81,84 @@ class UserRepository(
         }
     }
 
+    @Throws(Exception::class)
     fun insertOrUpdate(user: User): Int {
+
+        // load old data
+        val oldUsers = this.userMapper?.getUsers()
+
         if(user.id != 0) {
+
+            // load old user
+            val oldUser = getUsersById(user.id)
+
+            // check if admin is more than one time
+            if(oldUser?.admin == 1 && user.admin==0) {
+                val count = oldUsers?.count { it.admin == 1 } ?: 0
+                if(count <= 1) {
+                    throw Exception(FXHelper.getBundle().getString("sys.user.dataAdmin"))
+                }
+            }
+
+            // check if username exists
+            if(oldUser?.userName != user.userName) {
+                val count = oldUsers?.count { it.userName == user.userName && it.id != user.id} ?: 0
+                if(count >= 1) {
+                    throw Exception(FXHelper.getBundle().getString("sys.user.dataUsername"))
+                }
+            }
+
+            // check if email exists
+            if(oldUser?.email != user.email && user.email.isNotEmpty()) {
+                val count = oldUsers?.count { it.email == user.email && it.id != user.id} ?: 0
+                if(count >= 1) {
+                    throw Exception(FXHelper.getBundle().getString("sys.user.dataEmail"))
+                }
+            }
+
             this.userMapper?.update(user)
         } else {
+
+            // check if username exists
+            if(user.userName.isNotEmpty()) {
+                val count = oldUsers?.count { it.userName == user.userName && it.id != user.id} ?: 0
+                if(count >= 1) {
+                    throw Exception(FXHelper.getBundle().getString("sys.user.dataUsername"))
+                }
+            } else {
+                throw Exception(FXHelper.getBundle().getString("sys.user.dataUsernameNotEmpty"))
+            }
+
+            // check if email exists
+            if(user.email.isNotEmpty()) {
+                val count = oldUsers?.count { it.email == user.email && it.id != user.id} ?: 0
+                if(count >= 1) {
+                    throw Exception(FXHelper.getBundle().getString("sys.user.dataEmail"))
+                }
+            }
+
             user.password = encrypt(user.password)
             user.id = this.userMapper?.insert(user) ?: 0
+
+            LoginController.createDialog(true, user.userName, true)
         }
         return user.id
     }
 
+    @Throws(Exception::class)
     fun delete(user: User) {
+        // load old data
+        val oldUsers = this.userMapper?.getUsers()
+        val oldUser = getUsersById(user.id)
+
+        // check admin
+        if(oldUser?.admin == 1) {
+            val count = oldUsers?.count { it.admin == 1 } ?: 0
+            if(count <= 1) {
+                throw Exception(FXHelper.getBundle().getString("sys.user.dataAdmin"))
+            }
+        }
+
         this.userMapper?.delete(user)
     }
 }
