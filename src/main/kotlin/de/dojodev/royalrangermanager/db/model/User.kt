@@ -12,4 +12,17 @@ data class User(
     var trunkHelper: Int,
     var leader: Int,
     var juniorLeader: Int
-)
+) {
+
+    fun isAdmin(): Boolean {
+        return admin == 1
+    }
+
+    fun isTrunkLeadership(): Boolean {
+        return this.isAdmin() || trunkLeader == 1 || trunkWait == 1 || trunkHelper == 1
+    }
+
+    fun isLeader(): Boolean {
+        return this.isTrunkLeadership() || leader == 1
+    }
+}

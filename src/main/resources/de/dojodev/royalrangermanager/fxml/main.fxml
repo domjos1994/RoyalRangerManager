@@ -26,6 +26,9 @@
           <Tab fx:id="tbUsers" text="%main.system.user">
             <fx:include fx:id="users" source="users.fxml"/>
           </Tab>
+            <Tab fx:id="tbTeams" text="%main.system.teams">
+                <fx:include fx:id="teams" source="teams.fxml"/>
+            </Tab>
         </tabs>
       </TabPane>
       <MenuBar layoutX="162.0" layoutY="167.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -44,6 +47,7 @@
           </Menu>
             <Menu fx:id="mnuSystem" mnemonicParsing="false" text="%main.system">
                 <MenuItem fx:id="mnuSystemUsers" mnemonicParsing="false" text="%main.system.user"/>
+                <MenuItem fx:id="mnuSystemTeams" mnemonicParsing="false" text="%main.system.teams"/>
             </Menu>
         </menus>
       </MenuBar>

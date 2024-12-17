@@ -1,6 +1,7 @@
 package de.dojodev.royalrangermanager.controller
 
 import de.dojodev.royalrangermanager.db.model.User
+import de.dojodev.royalrangermanager.helper.Converter
 import de.dojodev.royalrangermanager.helper.FXHelper
 import de.dojodev.royalrangermanager.helper.Project
 import de.dojodev.royalrangermanager.repositories.UserRepository
@@ -96,9 +97,9 @@ class UsersController : SubController() {
         genderCol.text = FXHelper.getBundle().getString("user.gender")
         genderCol.cellValueFactory = Callback { data ->
             val user = data.value
-            val stringProperty = SimpleStringProperty(if(user.gender == 0) FXHelper.getBundle().getString("user.gender.m") else FXHelper.getBundle().getString("user.gender.m"))
+            val stringProperty = SimpleStringProperty(Converter.intToGender(user.gender))
             stringProperty.addListener {_,_, new ->
-                user.gender = if(new==FXHelper.getBundle().getString("user.gender.m")) 0 else 1
+                user.gender = Converter.genderToInt(new)
             }
             stringProperty
         }
@@ -106,7 +107,8 @@ class UsersController : SubController() {
             ComboBoxTableCell.forTableColumn(
                 FXCollections.observableArrayList(
                     FXHelper.getBundle().getString("user.gender.m"),
-                    FXHelper.getBundle().getString("user.gender.f")
+                    FXHelper.getBundle().getString("user.gender.f"),
+                    FXHelper.getBundle().getString("user.gender.ns")
                 )
             )
         this.tblUsers.columns.add(genderCol)
@@ -201,7 +203,7 @@ class UsersController : SubController() {
             if(userModel != null) {
                 this.tblUsers.items.clear()
 
-                if(userModel.admin == 1 || userModel.trunkLeader == 1 || userModel.trunkWait == 1 || userModel.trunkHelper == 1) {
+                if(userModel.isTrunkLeadership()) {
                     this.tblUsers.items.addAll(this.userRepository!!.getUsers())
                 } else {
                     this.tblUsers.items.add(userModel)

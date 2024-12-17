@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dojodev.royalrangermanager.controller.TeamsController">
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="177.0" layoutY="85.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TableView fx:id="tblTeams" layoutX="-25.0" layoutY="22.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Label layoutX="107.0" layoutY="113.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%team.name" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Label layoutX="41.0" layoutY="107.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%ageGroup" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="35.0" />
+                  <Label layoutX="105.0" layoutY="162.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.gender" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="65.0" />
+                  <Label layoutX="105.0" layoutY="191.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%team.description" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="95.0" />
+                  <TextField fx:id="txtTeamName" layoutX="143.0" layoutY="152.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <ComboBox fx:id="cmbTeamGroup" layoutX="153.0" layoutY="154.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
+                  <ComboBox fx:id="cmbTeamGender" layoutX="151.0" layoutY="214.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="65.0" />
+                  <TextArea fx:id="txtTeamDescription" layoutX="109.0" layoutY="90.0" maxHeight="150.0" minHeight="150.0" prefHeight="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="95.0" />
+                  <Label layoutX="77.0" layoutY="288.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%team.note" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="250.0" />
+                  <TextArea fx:id="txtTeamNote" layoutX="110.0" layoutY="250.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="250.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

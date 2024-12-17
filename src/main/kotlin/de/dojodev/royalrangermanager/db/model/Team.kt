@@ -7,4 +7,9 @@ data class Team(
     var note: String = "",
     var gender: Int,
     var ageGroupId: Int
-)
+) {
+
+    override fun toString(): String {
+        return this.name
+    }
+}

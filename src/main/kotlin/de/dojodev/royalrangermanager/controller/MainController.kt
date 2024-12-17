@@ -35,6 +35,7 @@ class MainController : Initializable {
     // program system
     @FXML private lateinit var mnuSystem: Menu
     @FXML private lateinit var mnuSystemUsers: MenuItem
+    @FXML private lateinit var mnuSystemTeams: MenuItem
 
     // toolbar
     @FXML private lateinit var cmdHome: Button
@@ -49,6 +50,7 @@ class MainController : Initializable {
     @FXML private lateinit var tbMain: Tab
     @FXML private lateinit var tbSettings: Tab
     @FXML private lateinit var tbUsers: Tab
+    @FXML private lateinit var tbTeams: Tab
 
     @FXML lateinit var pbMain: ProgressBar
     @FXML private lateinit var lblProject: Label
@@ -57,12 +59,15 @@ class MainController : Initializable {
     @FXML private lateinit var settingsController: SettingsController
     @FXML private lateinit var homeController: HomeController
     @FXML private lateinit var usersController: UsersController
+    @FXML private lateinit var teamsController: TeamsController
 
     private val project = Project.get()
     private var user: User? = null
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        FXHelper.initSubControllers(this, listOf(homeController, settingsController, usersController))
+        FXHelper.initSubControllers(this,
+            listOf(homeController, settingsController, usersController, teamsController)
+        )
         val extension = FileChooser.ExtensionFilter("Project", "*.rrm")
         this.project.getPath().addListener {_,_,v -> lblProject.text = v}
         this.setData()
@@ -164,6 +169,11 @@ class MainController : Initializable {
             try {
                 val user = Project.get().getUser()
                 this.mnuSystemUsers.isDisable = user == null
+                if(user == null) {
+                    this.mnuSystemTeams.isDisable = true
+                } else {
+                    this.mnuSystemTeams.isDisable = !user.isLeader()
+                }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
             }
@@ -171,6 +181,10 @@ class MainController : Initializable {
 
         this.mnuSystemUsers.setOnAction {
             this.tbcMain.selectionModel.select(this.tbUsers)
+        }
+
+        this.mnuSystemTeams.setOnAction {
+            this.tbcMain.selectionModel.select(this.tbTeams)
         }
 
         this.tbcMain.selectionModel.selectedItemProperty().addListener { _, _, c ->
@@ -185,6 +199,7 @@ class MainController : Initializable {
                     p1?.getString("name") -> homeController.initControls()
                     p1?.getString("main.program.settings") -> settingsController.initControls()
                     p1?.getString("main.system.user") -> usersController.initControls()
+                    p1?.getString("main.system.teams") -> teamsController.initControls()
                 }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)

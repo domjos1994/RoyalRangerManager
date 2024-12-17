@@ -43,10 +43,6 @@ class UserRepository(
         return this.userMapper?.getUsers() ?: listOf()
     }
 
-    fun getUsersById(id: Int): User? {
-        return this.userMapper?.getUserById(id)
-    }
-
     @Throws(Exception::class)
     fun login(user: String, password: String): User {
         val md5Pwd = encrypt(password)
@@ -160,5 +156,9 @@ class UserRepository(
         }
 
         this.userMapper?.delete(user)
+    }
+
+    private fun getUsersById(id: Int): User? {
+        return this.userMapper?.getUserById(id)
     }
 }

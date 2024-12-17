@@ -83,3 +83,8 @@ CREATE TABLE people_emergencyContacts(
 
 -- this is the last line
 INSERT INTO properties('key', 'value') VALUES('version', '1');
+INSERT INTO ageGroups(nameEn, nameDe, minAge, maxAge) VALUES('Discovery Rangers', 'Entdecker', 4, 6);
+INSERT INTO ageGroups(nameEn, nameDe, minAge, maxAge) VALUES('Adventure Rangers', 'Forscher', 6, 8);
+INSERT INTO ageGroups(nameEn, nameDe, minAge, maxAge) VALUES('Expedition Rangers', 'Kundschafter', 9, 11);
+INSERT INTO ageGroups(nameEn, nameDe, minAge, maxAge) VALUES('Pathfinder', 'Pfadfinder', 12, 14);
+INSERT INTO ageGroups(nameEn, nameDe, minAge, maxAge) VALUES('Pathranger', 'Pfadranger', 15, 17);
