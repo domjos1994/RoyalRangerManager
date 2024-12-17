@@ -1,5 +1,9 @@
 package de.dojodev.royalrangermanager.helper
 
+import java.time.LocalDate
+import java.time.ZoneId
+import java.util.Date
+
 class Converter {
 
     companion object {
@@ -20,6 +24,23 @@ class Converter {
                 0 -> return FXHelper.getBundle().getString("user.gender.ns")
             }
             return FXHelper.getBundle().getString("user.gender.ns")
+        }
+
+        fun dateToLocalDate(date: Date?): LocalDate? {
+            if(date == null) {
+                return null
+            }
+
+            return LocalDate.ofInstant(date.toInstant(), ZoneId.systemDefault())
+        }
+
+        fun localDateToDate(localDate: LocalDate?): Date? {
+            if(localDate == null) {
+                return null
+            }
+
+            val instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()
+            return Date.from(instant)
         }
     }
 }

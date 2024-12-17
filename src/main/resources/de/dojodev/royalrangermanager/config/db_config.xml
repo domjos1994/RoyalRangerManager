@@ -19,5 +19,6 @@
         <mapper class="de.dojodev.royalrangermanager.db.mapper.PropertyMapper"/>
         <mapper class="de.dojodev.royalrangermanager.db.mapper.AgeGroupMapper"/>
         <mapper class="de.dojodev.royalrangermanager.db.mapper.TeamMapper"/>
+        <mapper class="de.dojodev.royalrangermanager.db.mapper.PeopleMapper"/>
     </mappers>
 </configuration>

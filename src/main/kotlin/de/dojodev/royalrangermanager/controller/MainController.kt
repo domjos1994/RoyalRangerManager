@@ -66,12 +66,18 @@ class MainController : Initializable {
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         FXHelper.initSubControllers(this,
-            listOf(homeController, settingsController, usersController, teamsController)
+            listOf(
+                homeController,
+                settingsController,
+                usersController,
+                teamsController
+            )
         )
         val extension = FileChooser.ExtensionFilter("Project", "*.rrm")
         this.project.getPath().addListener {_,_,v -> lblProject.text = v}
         this.setData()
         this.initIcons()
+        this.homeController.initControls()
 
         this.mnuProgram.setOnShowing {
             try {
@@ -120,6 +126,7 @@ class MainController : Initializable {
                     FXHelper.printSuccess()
                     val controller = LoginController.createDialog()
                     this.user = controller.getUser()
+                    this.homeController.initControls()
                 }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
@@ -137,6 +144,7 @@ class MainController : Initializable {
                     FXHelper.printSuccess()
                     val controller = LoginController.createDialog()
                     this.user = controller.getUser()
+                    this.homeController.initControls()
                 }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
@@ -172,7 +180,7 @@ class MainController : Initializable {
                 if(user == null) {
                     this.mnuSystemTeams.isDisable = true
                 } else {
-                    this.mnuSystemTeams.isDisable = !user.isLeader()
+                    this.mnuSystemTeams.isDisable = !user.isSeniorLeader()
                 }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)

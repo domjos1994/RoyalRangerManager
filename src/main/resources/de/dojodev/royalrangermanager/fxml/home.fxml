@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="de.dojodev.royalrangermanager.controller.HomeController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dojodev.royalrangermanager.controller.HomeController">
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="122.0" layoutY="47.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TableView fx:id="tblPeople" layoutY="27.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Label layoutX="154.0" layoutY="102.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.name" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Label layoutX="91.0" layoutY="166.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.gender" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="35.0" />
+                  <Label layoutX="77.0" layoutY="130.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.birthdate" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="65.0" />
+                  <Label layoutX="98.0" layoutY="151.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.email" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="95.0" />
+                  <Label layoutX="77.0" layoutY="228.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.phone" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="125.0" />
+                  <TextField fx:id="txtPersonFirstName" layoutX="134.0" layoutY="217.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" promptText="%person.firstName" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="5.0" />
+                  <TextField fx:id="txtPersonMiddleName" layoutX="61.0" layoutY="287.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" promptText="%person.middleName" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="5.0" />
+                  <TextField fx:id="txtPersonLastName" layoutX="141.0" layoutY="232.0" promptText="%person.lastName" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <ComboBox fx:id="cmbPersonGender" layoutX="160.0" layoutY="269.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
+                  <DatePicker fx:id="dtPersonBirthdate" layoutX="153.0" layoutY="234.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="65.0" />
+                  <TextField fx:id="txtPersonEmail" layoutX="160.0" layoutY="224.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="95.0" />
+                  <TextField fx:id="txtPersonPhone" layoutX="136.0" layoutY="187.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="125.0" />
+                  <Label layoutX="91.0" layoutY="212.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.team" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="155.0" />
+                  <ComboBox fx:id="cmbPersonTeam" layoutX="198.0" layoutY="264.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="155.0" />
+                  <Label layoutX="82.0" layoutY="239.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%ageGroup" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="185.0" />
+                  <ComboBox fx:id="cmbPersonAgeGroup" layoutX="140.0" layoutY="239.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="185.0" />
+                  <Label layoutX="77.0" layoutY="291.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.medicine" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="215.0" />
+                  <TextArea fx:id="txtPersonMedicine" layoutX="110.0" layoutY="215.0" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="215.0" />
+                  <Label layoutX="41.0" layoutY="311.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%team.description" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="270.0" />
+                  <TextArea fx:id="txtPersonDescription" layoutX="110.0" layoutY="270.0" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="270.0" />
+                  <Label layoutX="20.0" layoutY="336.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%team.note" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="325.0" />
+                  <TextArea fx:id="txtPersonNote" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="325.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
 </AnchorPane>
