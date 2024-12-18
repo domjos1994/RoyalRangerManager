@@ -14,6 +14,7 @@ import javafx.scene.control.MenuItem
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
+import javafx.scene.control.ToolBar
 import javafx.stage.FileChooser
 import org.controlsfx.glyphfont.FontAwesome
 import org.kordamp.ikonli.javafx.FontIcon
@@ -38,12 +39,8 @@ class MainController : Initializable {
     @FXML private lateinit var mnuSystemTeams: MenuItem
 
     // toolbar
+    @FXML lateinit var toolMain: ToolBar
     @FXML private lateinit var cmdHome: Button
-    @FXML lateinit var cmdNew: Button
-    @FXML lateinit var cmdEdit: Button
-    @FXML lateinit var cmdDelete: Button
-    @FXML lateinit var cmdSave: Button
-    @FXML lateinit var cmdCancel: Button
 
     // tabs
     @FXML private lateinit var tbcMain: TabPane
@@ -61,23 +58,25 @@ class MainController : Initializable {
     @FXML private lateinit var usersController: UsersController
     @FXML private lateinit var teamsController: TeamsController
 
+    private var controllers = mutableMapOf<String, SubController>()
+
     private val project = Project.get()
     private var user: User? = null
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        FXHelper.initSubControllers(this,
-            listOf(
-                homeController,
-                settingsController,
-                usersController,
-                teamsController
-            )
-        )
+        controllers.clear()
+        controllers[FXHelper.getBundle().getString("name")] = homeController
+        controllers[FXHelper.getBundle().getString("main.program.settings")] = settingsController
+        controllers[FXHelper.getBundle().getString("main.system.user")] = usersController
+        controllers[FXHelper.getBundle().getString("main.system.teams")] = teamsController
+        FXHelper.initSubControllers(this, controllers.values.toList())
+        this.homeController.initIsActive()
+        this.homeController.initControls()
+
         val extension = FileChooser.ExtensionFilter("Project", "*.rrm")
         this.project.getPath().addListener {_,_,v -> lblProject.text = v}
         this.setData()
         this.initIcons()
-        this.homeController.initControls()
 
         this.mnuProgram.setOnShowing {
             try {
@@ -203,11 +202,14 @@ class MainController : Initializable {
                 } else {
                     FXHelper.getStage().title = "$name - ${c.text}"
                 }
-                when(c.text) {
-                    p1?.getString("name") -> homeController.initControls()
-                    p1?.getString("main.program.settings") -> settingsController.initControls()
-                    p1?.getString("main.system.user") -> usersController.initControls()
-                    p1?.getString("main.system.teams") -> teamsController.initControls()
+
+                controllers.forEach { (key, value) ->
+                    if(key == c.text) {
+                        value.initIsActive()
+                        value.initControls()
+                    } else {
+                        value.initIsInActive()
+                    }
                 }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
@@ -221,21 +223,12 @@ class MainController : Initializable {
 
     private fun initIcons() {
         try {
-            this.setIcon(this.cmdHome, FontAwesome.Glyph.HOME)
-            this.setIcon(this.cmdNew, FontAwesome.Glyph.PLUS)
-            this.setIcon(this.cmdEdit, FontAwesome.Glyph.EDIT)
-            this.setIcon(this.cmdDelete, FontAwesome.Glyph.MINUS)
-            this.setIcon(this.cmdSave, FontAwesome.Glyph.SAVE)
-            this.setIcon(this.cmdCancel, FontAwesome.Glyph.CLOSE)
+            val icon = FontIcon("fa-${FontAwesome.Glyph.HOME.name.lowercase()}")
+            icon.iconSize = 16
+            this.cmdHome.graphic = icon
         } catch (ex: Exception) {
             FXHelper.printNotification(ex)
         }
-    }
-
-    private fun setIcon(cmd: Button, glyph: FontAwesome.Glyph) {
-        val icon = FontIcon("fa-${glyph.name.lowercase()}")
-        icon.iconSize = 16
-        cmd.graphic = icon
     }
 
     fun setData() {

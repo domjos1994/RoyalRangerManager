@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.fxml.FXML
+import javafx.scene.control.Button
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.cell.CheckBoxTableCell
@@ -19,52 +20,26 @@ import javafx.scene.control.cell.TextFieldTableCell
 import javafx.util.Callback
 
 class UsersController : SubController() {
+    @FXML private lateinit var tblUsers: TableView<User>
 
-    @FXML
-    private lateinit var tblUsers: TableView<User>
+    private lateinit var cmdNew: Button
+    private lateinit var cmdDelete: Button
+    private lateinit var cmdCancel: Button
+    private lateinit var cmdSave: Button
 
     private var userRepository: UserRepository? = null
 
     override fun initControls() {
         this.userRepository = UserRepository()
-        super.cmdNew?.isDisable = false
-        super.cmdEdit?.isDisable = true
-        super.cmdCancel?.isDisable = false
-        super.cmdSave?.isDisable = true
-        super.cmdDelete?.isDisable = true
+        this.cmdNew.isDisable = false
+        this.cmdCancel.isDisable = false
+        this.cmdSave.isDisable = true
+        this.cmdDelete.isDisable = true
         this.reload()
 
         this.tblUsers.selectionModel.selectedItemProperty().addListener { _ ->
-            super.cmdDelete?.isDisable = this.tblUsers.selectionModel.isEmpty
-            super.cmdSave?.isDisable = this.tblUsers.selectionModel.isEmpty
-        }
-
-        super.cmdNew?.setOnAction {
-            this.tblUsers.items.add(User(0, "", "", 0, "", 0, 0, 0, 0, 0, 0))
-        }
-
-        super.cmdSave?.setOnAction {
-            try {
-                this.tblUsers.selectionModel.selectedItems.forEach { item ->
-                    this.userRepository?.insertOrUpdate(item)
-                }
-                this.reload()
-            } catch (ex: Exception) {
-                FXHelper.printNotification(ex)
-            }
-        }
-
-        super.cmdCancel?.setOnAction { this.reload() }
-
-        super.cmdDelete?.setOnAction {
-            try {
-                this.tblUsers.selectionModel.selectedItems.forEach { item ->
-                    this.userRepository?.delete(item)
-                }
-                this.reload()
-            } catch (ex: Exception) {
-                FXHelper.printNotification(ex)
-            }
+            this.cmdDelete.isDisable = this.tblUsers.selectionModel.isEmpty
+            this.cmdSave.isDisable = this.tblUsers.selectionModel.isEmpty
         }
 
         val userNameCol = TableColumn<User, String>()
@@ -192,8 +167,45 @@ class UsersController : SubController() {
         this.tblUsers.columns.add(juniorLeaderCol)
     }
 
-    override fun init() {
+    override fun initButtons() {
+        this.cmdNew = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.PLUS) {
+            this.tblUsers.items.add(User(0, "", "", 0, "", 0, 0, 0, 0, 0, 0))
+        }
+
+        this.cmdDelete = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.MINUS) {
+            try {
+                this.tblUsers.selectionModel.selectedItems.forEach { item ->
+                    this.userRepository?.delete(item)
+                }
+                this.reload()
+                FXHelper.printSuccess()
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
+            }
+        }
+
+        this.cmdCancel = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.CLOSE) {
+            try {
+                this.reload()
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
+            }
+        }
+
+        this.cmdSave = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.SAVE) {
+            try {
+                this.tblUsers.selectionModel.selectedItems.forEach { item ->
+                    this.userRepository?.insertOrUpdate(item)
+                }
+                this.reload()
+                FXHelper.printSuccess()
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
+            }
+        }
     }
+
+    override fun initBindings() {}
 
     private fun reload() {
         try {
@@ -207,7 +219,7 @@ class UsersController : SubController() {
                     this.tblUsers.items.addAll(this.userRepository!!.getUsers())
                 } else {
                     this.tblUsers.items.add(userModel)
-                    this.cmdNew?.isDisable = true
+                    this.cmdNew.isDisable = true
                 }
             }
         } catch (ex: Exception) {

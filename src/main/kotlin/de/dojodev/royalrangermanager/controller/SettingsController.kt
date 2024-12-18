@@ -22,8 +22,27 @@ class SettingsController : SubController() {
     @FXML private lateinit var txtUsername: TextField
     @FXML private lateinit var txtPassword: TextField
 
+    private lateinit var cmdSave: Button
+
     override fun initControls() {
-        this.cmdSave?.setOnAction {
+        this.initDropDown()
+        this.initData()
+
+        this.cmdDb.setOnAction {
+            try {
+                val filter = FileChooser.ExtensionFilter(this.lang?.getString("settings.db"), "*.db")
+                val result = FXHelper.getFileChooser(true, extensions = listOf(filter))
+                if(result.isNotEmpty()) {
+                    txtDb.text = result
+                }
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
+            }
+        }
+    }
+
+    override fun initButtons() {
+        this.cmdSave = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.SAVE) {
             try {
                 val props = this.project.getProperties("config.properties")
                 when(this.cmbDriver.selectionModel.selectedItem) {
@@ -50,28 +69,7 @@ class SettingsController : SubController() {
         }
     }
 
-    override fun init() {
-        this.cmdNew?.isVisible = false
-        this.cmdEdit?.isVisible = false
-        this.cmdDelete?.isVisible = false
-        this.cmdCancel?.isVisible = false
-        this.cmdSave?.isVisible = true
-
-        this.initDropDown()
-        this.initData()
-
-        this.cmdDb.setOnAction {
-            try {
-                val filter = FileChooser.ExtensionFilter(this.lang?.getString("settings.db"), "*.db")
-                val result = FXHelper.getFileChooser(true, extensions = listOf(filter))
-                if(result.isNotEmpty()) {
-                    txtDb.text = result
-                }
-            } catch (ex: Exception) {
-                FXHelper.printNotification(ex)
-            }
-        }
-    }
+    override fun initBindings() {}
 
     private fun initData() {
         try {

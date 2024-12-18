@@ -12,7 +12,6 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<?import javafx.scene.control.Separator?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="de.dojodev.royalrangermanager.controller.MainController">
    <children>
       <TabPane fx:id="tbcMain" layoutX="191.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="10.0" tabMaxWidth="0.0" tabMinHeight="10.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0">
@@ -51,16 +50,9 @@
             </Menu>
         </menus>
       </MenuBar>
-      <ToolBar maxHeight="30.0" minHeight="30.0" prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <ToolBar fx:id="toolMain" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <items>
              <Button fx:id="cmdHome" mnemonicParsing="false"/>
-             <Separator/>
-             <Button fx:id="cmdNew" mnemonicParsing="false"/>
-             <Button fx:id="cmdEdit" mnemonicParsing="false"/>
-             <Button fx:id="cmdDelete" mnemonicParsing="false"/>
-             <Separator/>
-             <Button fx:id="cmdSave" mnemonicParsing="false"/>
-             <Button fx:id="cmdCancel" mnemonicParsing="false"/>
          </items>
       </ToolBar>
       <ToolBar layoutX="100.0" layoutY="160.0" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

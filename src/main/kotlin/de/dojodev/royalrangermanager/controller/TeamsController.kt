@@ -8,6 +8,7 @@ import de.dojodev.royalrangermanager.helper.Project
 import de.dojodev.royalrangermanager.repositories.TeamRepository
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
+import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
@@ -25,6 +26,12 @@ class TeamsController : SubController() {
     @FXML private lateinit var cmbTeamGroup: ComboBox<AgeGroup>
     @FXML private lateinit var cmbTeamGender: ComboBox<String>
 
+    private lateinit var cmdNew: Button
+    private lateinit var cmdEdit: Button
+    private lateinit var cmdDelete: Button
+    private lateinit var cmdCancel: Button
+    private lateinit var cmdSave: Button
+
     private var teamRepository: TeamRepository? = null
     private val ageGroups = mutableListOf<AgeGroup>()
     private var selectedTeam: Team? = null
@@ -32,13 +39,6 @@ class TeamsController : SubController() {
     override fun initControls() {
         this.teamRepository = TeamRepository()
         this.ageGroups.addAll(this.teamRepository?.getAgeGroups() ?: listOf())
-        super.cmdEdit?.disableProperty()?.bindBidirectional(super.cmdDelete?.disableProperty())
-        super.cmdSave?.disableProperty()?.bindBidirectional(super.cmdCancel?.disableProperty())
-        super.cmdNew?.isDisable = false
-        super.cmdEdit?.isDisable = true
-        super.cmdDelete?.isDisable = true
-        super.cmdCancel?.isDisable = true
-        super.cmdSave?.isDisable = true
         this.reload()
 
         this.tblTeams.columns.clear()
@@ -70,15 +70,17 @@ class TeamsController : SubController() {
         this.cmbTeamGroup.items.addAll(this.ageGroups)
 
         this.tblTeams.selectionModel.selectedItemProperty().addListener { _,_,_ ->
-            this.cmdEdit?.isDisable = false
+            this.cmdEdit.isDisable = false
             this.control(
                 editMode = false,
                 reset = false,
                 team = this.tblTeams.selectionModel.selectedItem
             )
         }
+    }
 
-        super.cmdNew?.setOnAction {
+    override fun initButtons() {
+        this.cmdNew = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.PLUS) {
             this.control(
                 editMode = true,
                 reset = false,
@@ -86,7 +88,7 @@ class TeamsController : SubController() {
             )
         }
 
-        super.cmdEdit?.setOnAction {
+        this.cmdEdit = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.EDIT) {
             this.control(
                 editMode = true,
                 reset = false,
@@ -94,26 +96,25 @@ class TeamsController : SubController() {
             )
         }
 
-        super.cmdDelete?.setOnAction {
+        this.cmdDelete = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.MINUS) {
             try {
                 this.teamRepository?.deleteTeam(this.tblTeams.selectionModel.selectedItem)
-                FXHelper.printSuccess()
                 this.reload()
+                FXHelper.printSuccess()
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
             }
         }
 
-        super.cmdCancel?.setOnAction {
+        this.cmdCancel = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.CLOSE) {
             try {
-                FXHelper.printSuccess()
                 this.reload()
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
             }
         }
 
-        super.cmdSave?.setOnAction {
+        this.cmdSave = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.SAVE) {
             try {
                 if(this.selectedTeam != null) {
                     this.selectedTeam?.name = this.txtTeamName.text
@@ -123,8 +124,8 @@ class TeamsController : SubController() {
                     this.selectedTeam?.ageGroupId = this.cmbTeamGroup.selectionModel.selectedItem.id
 
                     this.teamRepository?.insertOrUpdateTeam(this.selectedTeam!!)
-                    FXHelper.printSuccess()
                     this.reload()
+                    FXHelper.printSuccess()
                 }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
@@ -132,11 +133,14 @@ class TeamsController : SubController() {
         }
     }
 
-    override fun init() {}
+    override fun initBindings() {
+        this.cmdEdit.disableProperty()?.bindBidirectional(this.cmdDelete.disableProperty())
+        this.cmdSave.disableProperty()?.bindBidirectional(this.cmdCancel.disableProperty())
+    }
 
     private fun control(editMode: Boolean, reset: Boolean, team: Team? = null) {
-        this.cmdNew?.isDisable = editMode
-        this.cmdSave?.isDisable = !editMode
+        this.cmdNew.isDisable = editMode
+        this.cmdSave.isDisable = !editMode
 
         this.txtTeamName.isDisable = !editMode
         this.txtTeamDescription.isDisable = !editMode

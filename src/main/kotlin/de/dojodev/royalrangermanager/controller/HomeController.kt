@@ -9,6 +9,7 @@ import de.dojodev.royalrangermanager.helper.Project
 import de.dojodev.royalrangermanager.repositories.PeopleRepository
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
+import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
 import javafx.scene.control.DatePicker
 import javafx.scene.control.TableColumn
@@ -32,6 +33,12 @@ class HomeController : SubController() {
     @FXML private lateinit var txtPersonDescription: TextArea
     @FXML private lateinit var txtPersonNote: TextArea
 
+    private lateinit var cmdNew: Button
+    private lateinit var cmdEdit: Button
+    private lateinit var cmdDelete: Button
+    private lateinit var cmdCancel: Button
+    private lateinit var cmdSave: Button
+
     private var peopleRepository: PeopleRepository? = null
     private var selectedPerson: Person? = null
     private var teams = mutableListOf<Team>()
@@ -45,18 +52,27 @@ class HomeController : SubController() {
             this.ageGroups.clear()
             this.ageGroups.addAll(this.peopleRepository?.getAgeGroups() ?: listOf())
 
-            this.initBindings()
             this.loadComboBoxes()
             this.loadTableView()
             this.reload()
             this.tblPeople.selectionModel.clearSelection()
+            this.cmdNew.isDisable = false
+            this.tblPeople.isDisable = false
         } catch (_: Exception) {
             this.control(editMode = false, reset = true)
-            this.cmdNew?.isDisable = true
             this.tblPeople.selectionModel.clearSelection()
+            this.cmdNew.isDisable = true
+            this.cmdEdit.isDisable = true
+            this.tblPeople.isDisable = true
         }
 
-        this.cmdNew?.setOnAction {
+        this.tblPeople.selectionModel.selectedItemProperty().addListener { _ ->
+            this.cmdEdit.isDisable = this.tblPeople.selectionModel.isEmpty
+        }
+    }
+
+    override fun initButtons() {
+        this.cmdNew = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.PLUS) {
             try {
                 this.control(
                     editMode = true,
@@ -71,7 +87,7 @@ class HomeController : SubController() {
             }
         }
 
-        this.cmdEdit?.setOnAction {
+        this.cmdEdit = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.EDIT) {
             try {
                 this.control(
                     editMode = true,
@@ -83,16 +99,17 @@ class HomeController : SubController() {
             }
         }
 
-        this.cmdDelete?.setOnAction {
+        this.cmdDelete = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.MINUS) {
             try {
                 this.peopleRepository?.deletePerson(this.tblPeople.selectionModel.selectedItem)
                 this.reload()
+                FXHelper.printSuccess()
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
             }
         }
 
-        this.cmdCancel?.setOnAction {
+        this.cmdCancel = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.CLOSE) {
             try {
                 this.reload()
             } catch (ex: Exception) {
@@ -100,7 +117,7 @@ class HomeController : SubController() {
             }
         }
 
-        this.cmdSave?.setOnAction {
+        this.cmdSave = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.SAVE) {
             try {
                 this.selectedPerson?.firstName = txtPersonFirstName.text
                 this.selectedPerson?.middleName = txtPersonMiddleName.text
@@ -117,24 +134,17 @@ class HomeController : SubController() {
 
                 this.peopleRepository?.insertOrUpdatePerson(this.selectedPerson!!)
                 this.reload()
+                FXHelper.printSuccess()
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
             }
         }
-
-        this.tblPeople.selectionModel.selectedItemProperty().addListener { _ ->
-            this.cmdEdit?.isDisable = this.tblPeople.selectionModel.isEmpty
-        }
-    }
-
-    override fun init() {
-
     }
 
     private fun control(editMode: Boolean, reset: Boolean, person: Person? = null) {
-        this.cmdNew?.isDisable = editMode
-        this.cmdEdit?.isDisable = editMode
-        this.cmdSave?.isDisable = !editMode
+        this.cmdNew.isDisable = editMode
+        this.cmdEdit.isDisable = editMode
+        this.cmdSave.isDisable = !editMode
         this.tblPeople.isDisable = editMode
         this.txtPersonFirstName.isDisable = !editMode
 
@@ -175,9 +185,9 @@ class HomeController : SubController() {
         }
     }
 
-    private fun initBindings() {
-        this.cmdEdit?.disableProperty()?.bindBidirectional(this.cmdDelete?.disableProperty())
-        this.cmdSave?.disableProperty()?.bindBidirectional(this.cmdCancel?.disableProperty())
+    override fun initBindings() {
+        this.cmdEdit.disableProperty()?.bindBidirectional(this.cmdDelete.disableProperty())
+        this.cmdSave.disableProperty()?.bindBidirectional(this.cmdCancel.disableProperty())
 
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonMiddleName.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonLastName.disableProperty())
