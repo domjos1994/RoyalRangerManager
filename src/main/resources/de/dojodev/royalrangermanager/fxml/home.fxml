@@ -6,6 +6,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -70,7 +71,16 @@
                       </Tab>
                         <Tab text="%person.emergencyContacts">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="tblEmergencyContacts" editable="true" layoutX="116.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                      <columns>
+                                        <TableColumn fx:id="nameCol" minWidth="100.0" prefWidth="100.0" text="%person.name" />
+                                        <TableColumn fx:id="phoneCol" minWidth="50.0" prefWidth="100.0" text="%person.phone" />
+                                          <TableColumn fx:id="emailCol" minWidth="100.0" prefWidth="100.0" text="%user.email" />
+                                      </columns>
+                                    </TableView>
+                                 </children></AnchorPane>
                           </content>
                         </Tab>
                     </tabs>

@@ -1,6 +1,7 @@
 package de.dojodev.royalrangermanager.controller
 
 import de.dojodev.royalrangermanager.db.model.AgeGroup
+import de.dojodev.royalrangermanager.db.model.EmergencyContact
 import de.dojodev.royalrangermanager.db.model.Person
 import de.dojodev.royalrangermanager.db.model.Team
 import de.dojodev.royalrangermanager.helper.Converter
@@ -16,6 +17,7 @@ import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
+import javafx.scene.control.cell.PropertyValueFactory
 import javafx.util.Callback
 import net.synedra.validatorfx.Validator
 import java.time.LocalDate
@@ -40,6 +42,11 @@ class HomeController : SubController() {
     @FXML private lateinit var txtPersonDescription: TextArea
     @FXML private lateinit var txtPersonNote: TextArea
 
+    @FXML private lateinit var tblEmergencyContacts: TableView<EmergencyContact>
+    @FXML private lateinit var nameCol: TableColumn<EmergencyContact, String>
+    @FXML private lateinit var phoneCol: TableColumn<EmergencyContact, String>
+    @FXML private lateinit var emailCol: TableColumn<EmergencyContact, String>
+
     private lateinit var cmdNew: Button
     private lateinit var cmdEdit: Button
     private lateinit var cmdDelete: Button
@@ -52,6 +59,7 @@ class HomeController : SubController() {
     private var selectedPerson: Person? = null
     private var teams = mutableListOf<Team>()
     private var ageGroups = mutableListOf<AgeGroup>()
+    private val emDictionary = mutableMapOf<String, EmergencyContact>()
 
     override fun initControls() {
         try {
@@ -98,13 +106,15 @@ class HomeController : SubController() {
     override fun initButtons() {
         this.cmdNew = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.PLUS) {
             try {
+                val newPerson = Person(
+                    0, "", "", "", 0, null
+                )
+                newPerson.emergencyContacts.add(EmergencyContact(0, "", "", ""))
                 this.control(
                     editMode = true,
                     reset = false,
-                    person =
-                        Person(
-                            0, "", "", "", 0, null
-                        )
+                    person = newPerson
+
                 )
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
@@ -195,6 +205,7 @@ class HomeController : SubController() {
             this.txtPersonMedicine.text = ""
             this.txtPersonDescription.text = ""
             this.txtPersonNote.text = ""
+            this.tblEmergencyContacts.items.clear()
         } else {
             if(person != null) {
                 this.selectedPerson = person
@@ -218,6 +229,8 @@ class HomeController : SubController() {
                 this.txtPersonMedicine.text = this.selectedPerson?.medicines ?: ""
                 this.txtPersonDescription.text = this.selectedPerson?.description ?: ""
                 this.txtPersonNote.text = this.selectedPerson?.notes ?: ""
+                this.tblEmergencyContacts.items.clear()
+                this.tblEmergencyContacts.items.addAll(this.selectedPerson?.emergencyContacts ?: listOf())
             }
         }
     }
@@ -240,6 +253,7 @@ class HomeController : SubController() {
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonMedicine.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonDescription.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonNote.disableProperty())
+        this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.tblEmergencyContacts.disableProperty())
     }
 
     private fun reload() {
@@ -252,8 +266,20 @@ class HomeController : SubController() {
                 this.tblPeople.items.addAll(this.peopleRepository?.getPeople() ?: listOf())
             }
             this.control(editMode = false, reset = true)
+
+            this.emDictionary.clear()
+            val contacts = this.peopleRepository?.getEmergencyContacts() ?: listOf()
+            contacts.forEach { contact ->
+                if(!this.emDictionary.containsKey(contact.name)) {
+                    this.emDictionary[contact.name] = contact
+                }
+            }
         } catch (ex: Exception) {
             FXHelper.printNotification(ex)
+        }
+
+        this.tblEmergencyContacts.setOnMouseClicked {
+
         }
     }
 
@@ -300,6 +326,10 @@ class HomeController : SubController() {
             SimpleStringProperty(this.teams.find { it.id == item.value.teamId }.toString())
         }
         this.tblPeople.columns.add(teamCol)
+
+        this.nameCol.cellValueFactory = PropertyValueFactory("name")
+        this.emailCol.cellValueFactory = PropertyValueFactory("email")
+        this.phoneCol.cellValueFactory = PropertyValueFactory("phone")
     }
 
     private fun initValidator() {
