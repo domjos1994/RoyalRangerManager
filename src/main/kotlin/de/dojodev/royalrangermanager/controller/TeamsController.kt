@@ -16,6 +16,7 @@ import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.util.Callback
+import net.synedra.validatorfx.Validator
 
 class TeamsController : SubController() {
     @FXML private lateinit var tblTeams: TableView<Team>
@@ -25,6 +26,8 @@ class TeamsController : SubController() {
     @FXML private lateinit var txtTeamNote: TextArea
     @FXML private lateinit var cmbTeamGroup: ComboBox<AgeGroup>
     @FXML private lateinit var cmbTeamGender: ComboBox<String>
+
+    private val validator = Validator()
 
     private lateinit var cmdNew: Button
     private lateinit var cmdEdit: Button
@@ -39,6 +42,7 @@ class TeamsController : SubController() {
     override fun initControls() {
         this.teamRepository = TeamRepository()
         this.ageGroups.addAll(this.teamRepository?.getAgeGroups() ?: listOf())
+        this.initValidator()
         this.reload()
 
         this.tblTeams.columns.clear()
@@ -135,12 +139,12 @@ class TeamsController : SubController() {
 
     override fun initBindings() {
         this.cmdEdit.disableProperty()?.bindBidirectional(this.cmdDelete.disableProperty())
-        this.cmdSave.disableProperty()?.bindBidirectional(this.cmdCancel.disableProperty())
     }
 
     private fun control(editMode: Boolean, reset: Boolean, team: Team? = null) {
         this.cmdNew.isDisable = editMode
-        this.cmdSave.isDisable = !editMode
+        this.cmdCancel.isDisable = !editMode
+        this.cmdSave.isDisable = !editMode || this.validator.containsErrors()
 
         this.txtTeamName.isDisable = !editMode
         this.txtTeamDescription.isDisable = !editMode
@@ -179,5 +183,31 @@ class TeamsController : SubController() {
         } catch (ex: Exception) {
             FXHelper.printNotification(ex)
         }
+    }
+
+    private fun initValidator()  {
+        this.validator.clear()
+        this.validator
+            .createCheck()
+            .dependsOn("name", this.txtTeamName.textProperty())
+            .withMethod { check ->
+                val name = check.get<String>("name")
+                if(name.isEmpty()) {
+                    this.cmdSave.isDisable = true
+                    check.error(FXHelper.getBundle().getString("sys.team.dataNameNotNull"))
+                } else {
+                    val count = this.tblTeams.items.count {
+                        it.id != (this.selectedTeam?.id ?: 0) && name == it.name
+                    }
+                    if(count != 0) {
+                        this.cmdSave.isDisable = true
+                        check.error(FXHelper.getBundle().getString("sys.team.dataName"))
+                    } else {
+                        this.cmdSave.isDisable = this.txtTeamName.isDisable
+                    }
+                }
+            }
+            .decorates(txtTeamName)
+            .immediate()
     }
 }

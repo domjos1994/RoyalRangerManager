@@ -4,11 +4,12 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dojodev.royalrangermanager.controller.HomeController">
    <children>
@@ -24,25 +25,56 @@
                   <Label layoutX="154.0" layoutY="102.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.name" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
                   <Label layoutX="91.0" layoutY="166.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.gender" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="35.0" />
                   <Label layoutX="77.0" layoutY="130.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.birthdate" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="65.0" />
-                  <Label layoutX="98.0" layoutY="151.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.email" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="95.0" />
-                  <Label layoutX="77.0" layoutY="228.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.phone" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="125.0" />
                   <TextField fx:id="txtPersonFirstName" layoutX="134.0" layoutY="217.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" promptText="%person.firstName" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="5.0" />
                   <TextField fx:id="txtPersonMiddleName" layoutX="61.0" layoutY="287.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" promptText="%person.middleName" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="5.0" />
                   <TextField fx:id="txtPersonLastName" layoutX="141.0" layoutY="232.0" promptText="%person.lastName" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                   <ComboBox fx:id="cmbPersonGender" layoutX="160.0" layoutY="269.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
                   <DatePicker fx:id="dtPersonBirthdate" layoutX="153.0" layoutY="234.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="65.0" />
-                  <TextField fx:id="txtPersonEmail" layoutX="160.0" layoutY="224.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="95.0" />
-                  <TextField fx:id="txtPersonPhone" layoutX="136.0" layoutY="187.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="125.0" />
-                  <Label layoutX="91.0" layoutY="212.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.team" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="155.0" />
-                  <ComboBox fx:id="cmbPersonTeam" layoutX="198.0" layoutY="264.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="155.0" />
-                  <Label layoutX="82.0" layoutY="239.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%ageGroup" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="185.0" />
-                  <ComboBox fx:id="cmbPersonAgeGroup" layoutX="140.0" layoutY="239.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="185.0" />
-                  <Label layoutX="77.0" layoutY="291.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.medicine" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="215.0" />
-                  <TextArea fx:id="txtPersonMedicine" layoutX="110.0" layoutY="215.0" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="215.0" />
-                  <Label layoutX="41.0" layoutY="311.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%team.description" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="270.0" />
-                  <TextArea fx:id="txtPersonDescription" layoutX="110.0" layoutY="270.0" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="270.0" />
-                  <Label layoutX="20.0" layoutY="336.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%team.note" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="325.0" />
-                  <TextArea fx:id="txtPersonNote" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="325.0" />
+                  <Label layoutX="91.0" layoutY="212.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.team" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="95.0" />
+                  <ComboBox fx:id="cmbPersonTeam" layoutX="198.0" layoutY="264.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="95.0" />
+                  <Label layoutX="82.0" layoutY="239.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%ageGroup" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="125.0" />
+                  <ComboBox fx:id="cmbPersonAgeGroup" layoutX="140.0" layoutY="239.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="125.0" />
+                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="155.0">
+                    <tabs>
+                      <Tab text="%person.accessibility">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TextField fx:id="txtPersonPhone" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
+                                    <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.phone" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="35.0" />
+                                    <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.email" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                    <TextField fx:id="txtPersonEmail" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                    <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.street" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="65.0" />
+                                    <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.locality" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="95.0" />
+                                    <TextField fx:id="txtPersonStreet" layoutX="110.0" layoutY="65.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="65.0" />
+                                    <TextField fx:id="txtPersonNo" layoutX="134.0" layoutY="138.0" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="65.0" />
+                                    <TextField fx:id="txtPersonZip" layoutX="110.0" layoutY="95.0" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="95.0" />
+                                    <TextField fx:id="txtPersonLocality" layoutX="187.0" layoutY="137.0" AnchorPane.leftAnchor="185.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="95.0" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab text="%person.descriptions">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.medicine" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                    <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%team.description" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="60.0" />
+                                    <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%team.note" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="115.0" />
+                                    <TextArea fx:id="txtPersonMedicine" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                    <TextArea fx:id="txtPersonDescription" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="60.0" />
+                                    <TextArea fx:id="txtPersonNote" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="115.0" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                        <Tab text="%person.emergencyContacts">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
                </children>
             </AnchorPane>
         </items>

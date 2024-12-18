@@ -17,6 +17,9 @@ import javafx.scene.control.TableView
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.util.Callback
+import net.synedra.validatorfx.Validator
+import java.time.LocalDate
+import java.time.Period
 
 class HomeController : SubController() {
     @FXML private lateinit var tblPeople: TableView<Person>
@@ -27,6 +30,10 @@ class HomeController : SubController() {
     @FXML private lateinit var dtPersonBirthdate: DatePicker
     @FXML private lateinit var txtPersonEmail: TextField
     @FXML private lateinit var txtPersonPhone: TextField
+    @FXML private lateinit var txtPersonStreet: TextField
+    @FXML private lateinit var txtPersonNo: TextField
+    @FXML private lateinit var txtPersonZip: TextField
+    @FXML private lateinit var txtPersonLocality: TextField
     @FXML private lateinit var cmbPersonTeam: ComboBox<Team>
     @FXML private lateinit var cmbPersonAgeGroup: ComboBox<AgeGroup>
     @FXML private lateinit var txtPersonMedicine: TextArea
@@ -38,6 +45,8 @@ class HomeController : SubController() {
     private lateinit var cmdDelete: Button
     private lateinit var cmdCancel: Button
     private lateinit var cmdSave: Button
+
+    private val validator = Validator()
 
     private var peopleRepository: PeopleRepository? = null
     private var selectedPerson: Person? = null
@@ -54,6 +63,7 @@ class HomeController : SubController() {
 
             this.loadComboBoxes()
             this.loadTableView()
+            this.initValidator()
             this.reload()
             this.tblPeople.selectionModel.clearSelection()
             this.cmdNew.isDisable = false
@@ -68,6 +78,20 @@ class HomeController : SubController() {
 
         this.tblPeople.selectionModel.selectedItemProperty().addListener { _ ->
             this.cmdEdit.isDisable = this.tblPeople.selectionModel.isEmpty
+        }
+
+        this.dtPersonBirthdate.valueProperty().addListener { _,_,value ->
+            val now = LocalDate.now()
+            val period = Period.between(value, now)
+            val lst = this.ageGroups.sortedBy { it.minAge }
+
+            val ageGroup = lst.find {
+                it.minAge <= period.years && it.maxAge >= period.years
+            }
+
+            if(ageGroup != null) {
+                this.cmbPersonAgeGroup.selectionModel.select(ageGroup)
+            }
         }
     }
 
@@ -126,6 +150,10 @@ class HomeController : SubController() {
                 this.selectedPerson?.birthDate = Converter.localDateToDate(this.dtPersonBirthdate.value)
                 this.selectedPerson?.email = this.txtPersonEmail.text
                 this.selectedPerson?.phone = this.txtPersonPhone.text
+                this.selectedPerson?.street = this.txtPersonStreet.text
+                this.selectedPerson?.number = this.txtPersonNo.text
+                this.selectedPerson?.postalCode = this.txtPersonZip.text
+                this.selectedPerson?.locality = this.txtPersonLocality.text
                 this.selectedPerson?.teamId = this.cmbPersonTeam.selectionModel.selectedItem.id
                 this.selectedPerson?.ageGroupId = this.cmbPersonAgeGroup.selectionModel.selectedItem.id
                 this.selectedPerson?.medicines = this.txtPersonMedicine.text
@@ -144,7 +172,8 @@ class HomeController : SubController() {
     private fun control(editMode: Boolean, reset: Boolean, person: Person? = null) {
         this.cmdNew.isDisable = editMode
         this.cmdEdit.isDisable = editMode
-        this.cmdSave.isDisable = !editMode
+        this.cmdCancel.isDisable = !editMode
+        this.cmdSave.isDisable = !editMode || this.validator.containsErrors()
         this.tblPeople.isDisable = editMode
         this.txtPersonFirstName.isDisable = !editMode
 
@@ -157,6 +186,10 @@ class HomeController : SubController() {
             this.dtPersonBirthdate.value = null
             this.txtPersonEmail.text = ""
             this.txtPersonPhone.text = ""
+            this.txtPersonStreet.text = ""
+            this.txtPersonNo.text = ""
+            this.txtPersonZip.text = ""
+            this.txtPersonLocality.text = ""
             this.cmbPersonTeam.selectionModel.clearSelection()
             this.cmbPersonAgeGroup.selectionModel.clearSelection()
             this.txtPersonMedicine.text = ""
@@ -172,6 +205,10 @@ class HomeController : SubController() {
                 this.dtPersonBirthdate.value = Converter.dateToLocalDate(this.selectedPerson?.birthDate)
                 this.txtPersonEmail.text = this.selectedPerson?.email ?: ""
                 this.txtPersonPhone.text = this.selectedPerson?.phone ?: ""
+                this.txtPersonStreet.text = this.selectedPerson?.street ?: ""
+                this.txtPersonNo.text = this.selectedPerson?.number ?: ""
+                this.txtPersonZip.text = this.selectedPerson?.postalCode ?: ""
+                this.txtPersonLocality.text = this.selectedPerson?.locality ?: ""
                 this.cmbPersonTeam.selectionModel.select(this.teams.find {
                     it.id == (this.selectedPerson?.teamId ?: 0)
                 })
@@ -187,7 +224,6 @@ class HomeController : SubController() {
 
     override fun initBindings() {
         this.cmdEdit.disableProperty()?.bindBidirectional(this.cmdDelete.disableProperty())
-        this.cmdSave.disableProperty()?.bindBidirectional(this.cmdCancel.disableProperty())
 
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonMiddleName.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonLastName.disableProperty())
@@ -195,6 +231,10 @@ class HomeController : SubController() {
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.dtPersonBirthdate.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonEmail.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonPhone.disableProperty())
+        this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonStreet.disableProperty())
+        this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonNo.disableProperty())
+        this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonZip.disableProperty())
+        this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonLocality.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.cmbPersonTeam.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.cmbPersonAgeGroup.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonMedicine.disableProperty())
@@ -260,5 +300,104 @@ class HomeController : SubController() {
             SimpleStringProperty(this.teams.find { it.id == item.value.teamId }.toString())
         }
         this.tblPeople.columns.add(teamCol)
+    }
+
+    private fun initValidator() {
+        this.validator.clear()
+        this.validator
+            .createCheck()
+            .dependsOn("firstName", this.txtPersonFirstName.textProperty())
+            .withMethod { c ->
+                val firstName = c.get<String>("firstName")
+                if(firstName.isEmpty()) {
+                    c.error(FXHelper.getBundle().getString("sys.person.dataFirstName"))
+                }
+            }
+            .decorates(this.txtPersonFirstName)
+            .immediate()
+        this.validator
+            .createCheck()
+            .dependsOn("lastName", this.txtPersonLastName.textProperty())
+            .withMethod { c ->
+                val lastName = c.get<String>("lastName")
+                if(lastName.isEmpty()) {
+                    c.error(FXHelper.getBundle().getString("sys.person.dataLastName"))
+                }
+            }
+            .decorates(this.txtPersonLastName)
+            .immediate()
+
+        this.validator
+            .createCheck()
+            .dependsOn("firstName", this.txtPersonFirstName.textProperty())
+            .dependsOn("lastName", this.txtPersonLastName.textProperty())
+            .withMethod { c ->
+                val firstName = c.get<String>("firstName")
+                val lastName = c.get<String>("lastName")
+                val count = this.tblPeople.items.count {
+                    it.id != (this.selectedPerson?.id ?: 0) &&
+                            it.firstName == firstName &&
+                            it.lastName == lastName
+                }
+                if(count != 0) {
+                    c.error(FXHelper.getBundle().getString("sys.person.dataName"))
+                }
+            }
+            .decorates(this.txtPersonFirstName)
+            .immediate()
+
+        this.validator
+            .createCheck()
+            .dependsOn("birthDate", this.dtPersonBirthdate.valueProperty())
+            .withMethod { c ->
+                val date = c.get<LocalDate>("birthDate")
+                val lst = this.ageGroups.sortedBy { it.minAge }
+                val minAge = if(lst.isEmpty()) 0 else lst[0].minAge
+                val now = LocalDate.now()
+
+                if(date == null) {
+                    c.error(FXHelper.getBundle().getString("sys.person.dataBirthDay"))
+                } else {
+                    val period = Period.between(date, now)
+
+                    if(minAge > period.years) {
+                        c.error(FXHelper.getBundle().getString("sys.person.dataBirthDayToYoung"))
+                    }
+                }
+            }
+            .decorates(this.dtPersonBirthdate)
+            .immediate()
+
+        this.validator
+            .createCheck()
+            .dependsOn("team", this.cmbPersonTeam.valueProperty())
+            .withMethod { c ->
+                val team = c.get<Team?>("team")
+                if(team == null) {
+                    c.error(FXHelper.getBundle().getString("sys.person.team"))
+                }
+            }
+            .decorates(this.cmbPersonTeam)
+            .immediate()
+
+        this.validator
+            .createCheck()
+            .dependsOn("age", this.cmbPersonAgeGroup.valueProperty())
+            .withMethod { c ->
+                val ageGroup = c.get<AgeGroup?>("age")
+                if(ageGroup == null) {
+                    c.error(FXHelper.getBundle().getString("sys.person.ageGroup"))
+                }
+            }
+            .decorates(this.cmbPersonAgeGroup)
+            .immediate()
+
+        this.validator.validationResultProperty().addListener { _,_,c ->
+            if(c.messages.isEmpty()) {
+                this.cmdSave.isDisable = this.txtPersonFirstName.isDisable
+            } else {
+                this.cmdSave.isDisable = true
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
+import javafx.scene.input.KeyCode
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.stage.StageStyle
@@ -45,6 +46,21 @@ class LoginController : Initializable {
         txtPassword.isDisable = empty
 
         val repository = UserRepository()
+        if(!updatePassword) {
+            this.txtUserName.requestFocus()
+        }
+
+        this.txtPassword.setOnKeyReleased {
+            if(it.code == KeyCode.ENTER) {
+                this.cmdLogin.fire()
+            }
+        }
+
+        this.txtPasswordRepeat.setOnKeyReleased {
+            if(it.code == KeyCode.ENTER) {
+                this.cmdLogin.fire()
+            }
+        }
 
         this.cmdLogin.setOnAction {
             try {
@@ -56,6 +72,7 @@ class LoginController : Initializable {
                             txtPasswordNew.text
                         )
                         Project.get().setUser(this.user)
+                        result = 1
                         (this.cmdLogin.scene.window as Stage).close()
                     } else {
                         throw Exception(FXHelper.getBundle().getString("sys.user.dataPasswordSame"))
@@ -66,9 +83,11 @@ class LoginController : Initializable {
                         txtPassword.text
                     )
                     Project.get().setUser(this.user)
+                    result = 1
                     (this.cmdLogin.scene.window as Stage).close()
                 }
             } catch (ex: Exception) {
+                result = -1
                 FXHelper.printNotification(ex)
             }
         }
@@ -84,6 +103,7 @@ class LoginController : Initializable {
 
     companion object {
         private var updatePassword: Boolean = false
+        private var result = 0
         private var empty: Boolean = false
         private var user: String = ""
 
@@ -96,6 +116,11 @@ class LoginController : Initializable {
             val root = loader.load<Parent>()
             val scene = Scene(root)
             val stage = Stage()
+            stage.setOnHiding {
+                if(!updatePassword && result != 1) {
+                    exitProcess(0)
+                }
+            }
             stage.initModality(Modality.NONE)
             stage.initStyle(StageStyle.DECORATED)
             stage.initOwner(FXHelper.getStage())

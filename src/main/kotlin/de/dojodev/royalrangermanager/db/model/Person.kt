@@ -15,6 +15,10 @@ data class Person(
     var medicines: String = "",
     var email: String = "",
     var phone: String = "",
+    var street: String = "",
+    var number: String = "",
+    var locality: String = "",
+    var postalCode: String = "",
     var ageGroupId: Int = 0,
     var teamId: Int = 0
 )

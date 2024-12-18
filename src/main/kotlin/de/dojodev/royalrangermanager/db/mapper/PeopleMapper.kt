@@ -18,10 +18,10 @@ interface PeopleMapper {
     @Insert(
         "INSERT INTO people(" +
             "firstName, middleName, lastName, gender, birthDate, notes, description, " +
-            "medicines, email, phone, ageGroupId, teamId" +
+            "medicines, email, phone, street, number, locality, postalCode, ageGroupId, teamId" +
         ") VALUES(" +
             "#{firstName}, #{middleName}, #{lastName}, #{gender}, #{birthDate}, #{notes}, #{description}, " +
-            "#{medicines}, #{email}, #{phone}, #{ageGroupId}, #{teamId}" +
+            "#{medicines}, #{email}, #{phone}, #{street}, #{number}, #{locality}, #{postalCode}, #{ageGroupId}, #{teamId}" +
         ")"
     )
     @SelectKey(
@@ -34,7 +34,8 @@ interface PeopleMapper {
         "UPDATE people SET" +
                 "firstName=#{firstName}, middleName=#{middleName}, lastName=#{lastName}, gender=#{gender}, " +
                 "birthDate=#{birthDate}, notes=#{notes}, description=#{description}, " +
-                "medicines=#{medicines}, email=#{email}, phone=#{phone}, ageGroupId=#{ageGroupId}, teamId=#{teamId} " +
+                "medicines=#{medicines}, email=#{email}, phone=#{phone}, street=#{street}, number=#{number}, " +
+                "locality=#{locality}, postalCode=#{postalCode}, ageGroupId=#{ageGroupId}, teamId=#{teamId} " +
         "WHERE id=#{id}"
     )
     fun updatePerson(person: Person)
