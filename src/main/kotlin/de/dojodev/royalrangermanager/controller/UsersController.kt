@@ -206,6 +206,7 @@ class UsersController : SubController() {
     }
 
     override fun initBindings() {}
+    override fun initValidator() {}
 
     private fun reload() {
         try {

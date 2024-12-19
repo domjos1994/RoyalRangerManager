@@ -5,15 +5,17 @@ import de.dojodev.royalrangermanager.controller.SubController
 import javafx.fxml.FXMLLoader
 import javafx.geometry.Pos
 import javafx.scene.Scene
+import javafx.scene.control.Button
 import javafx.scene.image.Image
 import javafx.stage.FileChooser
 import javafx.stage.Stage
 import org.controlsfx.control.Notifications
+import org.controlsfx.glyphfont.FontAwesome
+import org.kordamp.ikonli.javafx.FontIcon
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.net.URLClassLoader
-import java.util.Locale
-import java.util.ResourceBundle
+import java.util.*
 
 @Suppress("MemberVisibilityCanBePrivate")
 class FXHelper {
@@ -138,6 +140,12 @@ class FXHelper {
 
         fun initSubControllers(mainController: MainController, controllers: List<SubController>) {
             controllers.forEach { it.init(mainController) }
+        }
+
+        fun setIcon(cmd: Button, glyph: FontAwesome.Glyph) {
+            val icon = FontIcon("fa-${glyph.name.lowercase()}")
+            icon.iconSize = 16
+            cmd.graphic = icon
         }
     }
 }

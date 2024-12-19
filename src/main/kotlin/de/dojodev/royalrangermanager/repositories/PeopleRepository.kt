@@ -36,7 +36,6 @@ class PeopleRepository(
                     item.emergencyContacts.add(tmp)
                 }
             }
-            item.emergencyContacts.add(EmergencyContact(0, "", "", ""))
         }
         return items
     }
@@ -140,6 +139,24 @@ class PeopleRepository(
     fun deletePerson(person: Person) {
         this.deleteUnusedReferences(person.id)
         this.peopleMapper?.deletePerson(person)
+    }
+
+    fun deleteEmergencyContact(emergencyContact: EmergencyContact) {
+        this.emergencyContactMapper?.deleteEmergencyContact(emergencyContact)
+    }
+
+    fun saveEmergencyContact(emergencyContact: EmergencyContact) {
+        this.getEmergencyContacts().forEach { item ->
+            if(item.name.trim().lowercase() == emergencyContact.name.trim().lowercase()) {
+                emergencyContact.id = item.id
+            }
+        }
+
+        if(emergencyContact.id != 0) {
+            this.emergencyContactMapper?.updateEmergencyContact(emergencyContact)
+        } else {
+            this.emergencyContactMapper?.insertEmergencyContact(emergencyContact)
+        }
     }
 
     private fun deleteUnusedReferences(personId: Int) {

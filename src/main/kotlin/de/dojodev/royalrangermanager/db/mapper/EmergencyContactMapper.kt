@@ -14,7 +14,7 @@ interface EmergencyContactMapper {
     @Select("SELECT count(id) FROM people_emergencyContacts WHERE emergencyContactId=#{id}")
     fun count(id: Int): Int
 
-    @Select("SELECT * FROM people_emergencyContacts WHERE id=#{id}")
+    @Select("SELECT * FROM people_emergencyContacts WHERE personId=#{id}")
     fun getEmergencyContactsOfPerson(id: Int): List<PeopleEmergencyContact>
 
     @Insert(
@@ -34,7 +34,7 @@ interface EmergencyContactMapper {
     fun insertPeopleEmergencyContact(emergencyContact: PeopleEmergencyContact)
 
     @Update(
-        "UPDATE emergencyContacts name=#{name}, email=#{email}, phone=#{phone} WHERE id=#{id}"
+        "UPDATE emergencyContacts SET name=#{name}, email=#{email}, phone=#{phone} WHERE id=#{id}"
     )
     fun updateEmergencyContact(emergencyContact: EmergencyContact)
 

@@ -10,16 +10,9 @@ import de.dojodev.royalrangermanager.helper.Project
 import de.dojodev.royalrangermanager.repositories.PeopleRepository
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
-import javafx.scene.control.Button
-import javafx.scene.control.ComboBox
-import javafx.scene.control.DatePicker
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
-import javafx.scene.control.TextArea
-import javafx.scene.control.TextField
+import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.util.Callback
-import net.synedra.validatorfx.Validator
 import java.time.LocalDate
 import java.time.Period
 
@@ -41,6 +34,7 @@ class HomeController : SubController() {
     @FXML private lateinit var txtPersonMedicine: TextArea
     @FXML private lateinit var txtPersonDescription: TextArea
     @FXML private lateinit var txtPersonNote: TextArea
+    @FXML private lateinit var cmdOpenDialog: Button
 
     @FXML private lateinit var tblEmergencyContacts: TableView<EmergencyContact>
     @FXML private lateinit var nameCol: TableColumn<EmergencyContact, String>
@@ -52,8 +46,6 @@ class HomeController : SubController() {
     private lateinit var cmdDelete: Button
     private lateinit var cmdCancel: Button
     private lateinit var cmdSave: Button
-
-    private val validator = Validator()
 
     private var peopleRepository: PeopleRepository? = null
     private var selectedPerson: Person? = null
@@ -84,23 +76,28 @@ class HomeController : SubController() {
             this.tblPeople.isDisable = true
         }
 
-        this.tblPeople.selectionModel.selectedItemProperty().addListener { _ ->
+        this.tblPeople.selectionModel.selectedItemProperty().addListener { _,_,p ->
             this.cmdEdit.isDisable = this.tblPeople.selectionModel.isEmpty
+            this.control(editMode = false, reset = false, person = p)
         }
 
         this.dtPersonBirthdate.valueProperty().addListener { _,_,value ->
             val now = LocalDate.now()
-            val period = Period.between(value, now)
-            val lst = this.ageGroups.sortedBy { it.minAge }
+            if(value != null) {
+                val period = Period.between(value, now)
+                val lst = this.ageGroups.sortedBy { it.minAge }
 
-            val ageGroup = lst.find {
-                it.minAge <= period.years && it.maxAge >= period.years
-            }
+                val ageGroup = lst.find {
+                    it.minAge <= period.years && it.maxAge >= period.years
+                }
 
-            if(ageGroup != null) {
-                this.cmbPersonAgeGroup.selectionModel.select(ageGroup)
+                if(ageGroup != null) {
+                    this.cmbPersonAgeGroup.selectionModel.select(ageGroup)
+                }
             }
         }
+
+        this.cmdOpenDialog.setOnAction { this.openDialog() }
     }
 
     override fun initButtons() {
@@ -254,6 +251,7 @@ class HomeController : SubController() {
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonDescription.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonNote.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.tblEmergencyContacts.disableProperty())
+        this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.cmdOpenDialog.disableProperty())
     }
 
     private fun reload() {
@@ -276,10 +274,6 @@ class HomeController : SubController() {
             }
         } catch (ex: Exception) {
             FXHelper.printNotification(ex)
-        }
-
-        this.tblEmergencyContacts.setOnMouseClicked {
-
         }
     }
 
@@ -327,13 +321,23 @@ class HomeController : SubController() {
         }
         this.tblPeople.columns.add(teamCol)
 
+        this.tblPeople.isEditable = false
         this.nameCol.cellValueFactory = PropertyValueFactory("name")
         this.emailCol.cellValueFactory = PropertyValueFactory("email")
         this.phoneCol.cellValueFactory = PropertyValueFactory("phone")
     }
 
-    private fun initValidator() {
-        this.validator.clear()
+    private fun openDialog() {
+        val items = EmergencyContactController.createDialog(this.selectedPerson)
+        val emContacts = this.peopleRepository?.getEmergencyContacts()?.filter { items.contains(it.id) } ?: listOf()
+        this.selectedPerson?.emergencyContacts?.clear()
+        this.selectedPerson?.emergencyContacts?.addAll(emContacts)
+
+        this.tblEmergencyContacts.items.clear()
+        this.tblEmergencyContacts.items.addAll(emContacts)
+    }
+
+    override fun initValidator() {
         this.validator
             .createCheck()
             .dependsOn("firstName", this.txtPersonFirstName.textProperty())

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -73,13 +74,14 @@
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TableView fx:id="tblEmergencyContacts" editable="true" layoutX="116.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                    <TableView fx:id="tblEmergencyContacts" editable="true" layoutX="116.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0">
                                       <columns>
                                         <TableColumn fx:id="nameCol" minWidth="100.0" prefWidth="100.0" text="%person.name" />
                                         <TableColumn fx:id="phoneCol" minWidth="50.0" prefWidth="100.0" text="%person.phone" />
                                           <TableColumn fx:id="emailCol" minWidth="100.0" prefWidth="100.0" text="%user.email" />
                                       </columns>
                                     </TableView>
+                                    <Button fx:id="cmdOpenDialog" layoutX="53.0" layoutY="2.0" mnemonicParsing="false" text="%person.emergencyContacts" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                                  </children></AnchorPane>
                           </content>
                         </Tab>

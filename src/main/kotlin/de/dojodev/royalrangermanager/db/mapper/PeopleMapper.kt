@@ -31,7 +31,7 @@ interface PeopleMapper {
     fun insertPerson(person: Person): Int
 
     @Update(
-        "UPDATE people SET" +
+        "UPDATE people SET " +
                 "firstName=#{firstName}, middleName=#{middleName}, lastName=#{lastName}, gender=#{gender}, " +
                 "birthDate=#{birthDate}, notes=#{notes}, description=#{description}, " +
                 "medicines=#{medicines}, email=#{email}, phone=#{phone}, street=#{street}, number=#{number}, " +

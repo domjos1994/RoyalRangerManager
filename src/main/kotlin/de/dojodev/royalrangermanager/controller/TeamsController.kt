@@ -16,7 +16,6 @@ import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.util.Callback
-import net.synedra.validatorfx.Validator
 
 class TeamsController : SubController() {
     @FXML private lateinit var tblTeams: TableView<Team>
@@ -26,8 +25,6 @@ class TeamsController : SubController() {
     @FXML private lateinit var txtTeamNote: TextArea
     @FXML private lateinit var cmbTeamGroup: ComboBox<AgeGroup>
     @FXML private lateinit var cmbTeamGender: ComboBox<String>
-
-    private val validator = Validator()
 
     private lateinit var cmdNew: Button
     private lateinit var cmdEdit: Button
@@ -185,8 +182,7 @@ class TeamsController : SubController() {
         }
     }
 
-    private fun initValidator()  {
-        this.validator.clear()
+    override fun initValidator()  {
         this.validator
             .createCheck()
             .dependsOn("name", this.txtTeamName.textProperty())

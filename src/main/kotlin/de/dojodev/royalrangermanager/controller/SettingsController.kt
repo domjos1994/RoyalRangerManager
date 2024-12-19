@@ -70,6 +70,7 @@ class SettingsController : SubController() {
     }
 
     override fun initBindings() {}
+    override fun initValidator() {}
 
     private fun initData() {
         try {
