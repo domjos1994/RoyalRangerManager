@@ -1,5 +1,6 @@
 package de.dojodev.royalrangermanager.controller
 
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import de.dojodev.royalrangermanager.db.model.AgeGroup
 import de.dojodev.royalrangermanager.db.model.EmergencyContact
 import de.dojodev.royalrangermanager.db.model.Person
@@ -13,8 +14,12 @@ import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.util.Callback
+import org.apache.commons.validator.routines.DomainValidator
+import org.apache.commons.validator.routines.EmailValidator
 import java.time.LocalDate
 import java.time.Period
+import java.util.Locale
+
 
 class HomeController : SubController() {
     @FXML private lateinit var tblPeople: TableView<Person>
@@ -63,7 +68,6 @@ class HomeController : SubController() {
 
             this.loadComboBoxes()
             this.loadTableView()
-            this.initValidator()
             this.reload()
             this.tblPeople.selectionModel.clearSelection()
             this.cmdNew.isDisable = false
@@ -424,6 +428,41 @@ class HomeController : SubController() {
                 }
             }
             .decorates(this.cmbPersonAgeGroup)
+            .immediate()
+
+        this.validator
+            .createCheck()
+            .dependsOn("email", this.txtPersonEmail.textProperty())
+            .withMethod { c ->
+                val email = c.get<String>("email")
+                if(email.isNotEmpty()) {
+                    val validator = EmailValidator(false, false, DomainValidator.getInstance())
+                    if(!validator.isValid(email)) {
+                        c.error(FXHelper.getBundle().getString("sys.person.dataEmail"))
+                    }
+                }
+            }
+            .decorates(this.txtPersonEmail)
+            .immediate()
+
+        this.validator
+            .createCheck()
+            .dependsOn("phone", this.txtPersonPhone.textProperty())
+            .withMethod { c ->
+                val phone = c.get<String>("phone")
+                if(phone.isNotEmpty()) {
+                    try {
+                        val phoneNumberUtil = PhoneNumberUtil.getInstance()
+                        val number = phoneNumberUtil.parse(phone, Locale.getDefault().country)
+                        if(number == null) {
+                            c.error(FXHelper.getBundle().getString("sys.person.dataPhone"))
+                        }
+                    } catch (_: Exception) {
+                        c.error(FXHelper.getBundle().getString("sys.person.dataPhone"))
+                    }
+                }
+            }
+            .decorates(this.txtPersonPhone)
             .immediate()
 
         this.validator.validationResultProperty().addListener { _,_,c ->

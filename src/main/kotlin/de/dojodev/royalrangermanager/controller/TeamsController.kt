@@ -39,7 +39,6 @@ class TeamsController : SubController() {
     override fun initControls() {
         this.teamRepository = TeamRepository()
         this.ageGroups.addAll(this.teamRepository?.getAgeGroups() ?: listOf())
-        this.initValidator()
         this.reload()
 
         this.tblTeams.columns.clear()

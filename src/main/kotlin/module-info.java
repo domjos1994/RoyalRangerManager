@@ -11,6 +11,8 @@ module de.dojodev.royalrangermanager {
     requires org.kordamp.ikonli.fontawesome;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires org.apache.commons.validator;
+    requires libphonenumber;
 
     requires org.mybatis;
     requires org.xerial.sqlitejdbc;

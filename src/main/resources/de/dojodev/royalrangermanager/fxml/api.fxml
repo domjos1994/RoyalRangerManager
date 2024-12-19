@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dojodev.royalrangermanager.controller.ApiController">
+   <children>
+      <TitledPane animated="false" collapsible="false" layoutX="65.0" layoutY="64.0" maxHeight="150.0" minHeight="150.0" prefHeight="150.0" text="%main.system.api" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <RadioButton fx:id="rbImport" layoutX="27.0" layoutY="73.0" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="%api.import" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="g1" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton fx:id="rbExport" layoutX="27.0" layoutY="113.0" maxHeight="25.0" minHeight="25.0" mnemonicParsing="false" prefHeight="25.0" text="%api.export" toggleGroup="$g1" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Button fx:id="cmdFile" layoutX="211.0" layoutY="98.0" maxWidth="50.0" minWidth="50.0" mnemonicParsing="false" prefWidth="50.0" text="..." AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+                  <Label layoutX="196.0" layoutY="118.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%api.file" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0" />
+                  <TextField fx:id="txtFile" layoutX="170.0" layoutY="103.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="30.0" />
+                  <Label layoutX="60.0" layoutY="122.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%api.type" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
+                  <ComboBox fx:id="cmbType" layoutX="139.0" layoutY="100.0" prefWidth="150.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TableView fx:id="tblColumns" layoutX="66.0" layoutY="159.0" maxHeight="200.0" minHeight="200.0" prefHeight="200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
+        <columns>
+          <TableColumn fx:id="colNo" maxWidth="100.0" prefWidth="50.0" text="%api.columns.no" />
+          <TableColumn fx:id="colTitle" maxWidth="200.0" minWidth="50.0" prefWidth="100.0" text="%api.columns.title" />
+            <TableColumn fx:id="colColumn" maxWidth="200.0" minWidth="50.0" prefWidth="100.0" text="%api.columns.column" />
+        </columns>
+      </TableView>
+      <ToolBar layoutX="66.0" layoutY="350.0" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <items>
+            <ProgressBar fx:id="pbProcess" prefWidth="200.0" progress="0.0" />
+            <Pane HBox.hgrow="ALWAYS" />
+          <Button fx:id="cmdExecute" defaultButton="true" mnemonicParsing="false" text="%api.execute" />
+        </items>
+      </ToolBar>
+   </children>
+</AnchorPane>

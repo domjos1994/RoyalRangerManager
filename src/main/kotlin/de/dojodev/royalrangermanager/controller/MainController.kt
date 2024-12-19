@@ -37,6 +37,7 @@ class MainController : Initializable {
     @FXML private lateinit var mnuSystem: Menu
     @FXML private lateinit var mnuSystemUsers: MenuItem
     @FXML private lateinit var mnuSystemTeams: MenuItem
+    @FXML private lateinit var mnuSystemApi: MenuItem
 
     // toolbar
     @FXML lateinit var toolMain: ToolBar
@@ -176,8 +177,10 @@ class MainController : Initializable {
                 this.mnuSystemUsers.isDisable = user == null
                 if(user == null) {
                     this.mnuSystemTeams.isDisable = true
+                    this.mnuSystemApi.isDisable = true
                 } else {
                     this.mnuSystemTeams.isDisable = !user.isSeniorLeader()
+                    this.mnuSystemApi.isDisable = !user.isSeniorLeader()
                 }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
@@ -190,6 +193,10 @@ class MainController : Initializable {
 
         this.mnuSystemTeams.setOnAction {
             this.tbcMain.selectionModel.select(this.tbTeams)
+        }
+
+        this.mnuSystemApi.setOnAction {
+            ApiController.createDialog()
         }
 
         this.tbcMain.selectionModel.selectedItemProperty().addListener { _, _, c ->

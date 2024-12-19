@@ -47,6 +47,7 @@
             <Menu fx:id="mnuSystem" mnemonicParsing="false" text="%main.system">
                 <MenuItem fx:id="mnuSystemUsers" mnemonicParsing="false" text="%main.system.user"/>
                 <MenuItem fx:id="mnuSystemTeams" mnemonicParsing="false" text="%main.system.teams"/>
+                <MenuItem fx:id="mnuSystemApi" mnemonicParsing="false" text="%main.system.api"/>
             </Menu>
         </menus>
       </MenuBar>
