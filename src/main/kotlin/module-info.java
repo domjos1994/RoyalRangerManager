@@ -21,7 +21,7 @@ module de.dojodev.royalrangermanager {
     requires java.prefs;
 
     opens de.dojodev.royalrangermanager to javafx.fxml;
-    opens de.dojodev.royalrangermanager.controller to javafx.fxml;
+    opens de.dojodev.royalrangermanager.controller to javafx.fxml, javafx.base;
     opens de.dojodev.royalrangermanager.db.model;
     opens de.dojodev.royalrangermanager.db.mapper;
     opens de.dojodev.royalrangermanager.repositories;

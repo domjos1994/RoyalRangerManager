@@ -20,10 +20,9 @@ import javafx.stage.FileChooser
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.stage.StageStyle
-import java.net.URI
+import java.io.File
 import java.net.URL
 import java.nio.file.Files
-import java.nio.file.Path
 import java.util.*
 
 class ApiController : Initializable {
@@ -37,8 +36,6 @@ class ApiController : Initializable {
     @FXML private lateinit var colNo: TableColumn<Item, Int>
     @FXML private lateinit var colTitle: TableColumn<Item, String>
     @FXML private lateinit var colColumn: TableColumn<Item, String>
-    @FXML private lateinit var colValue: TableColumn<Item, String>
-    @FXML private lateinit var colColumnValue: TableColumn<Item, String>
 
     @FXML private lateinit var pbProcess: ProgressBar
     @FXML private lateinit var cmdExecute: Button
@@ -81,7 +78,7 @@ class ApiController : Initializable {
         }
 
         this.txtFile.textProperty().addListener { _,_,value ->
-            this.cmdExecute.isDisable = !Files.isRegularFile(Path.of(URI.create(value)))
+            this.cmdExecute.isDisable = !Files.isRegularFile(File(value).toPath())
             this.tblColumns.isVisible = (value.lowercase().endsWith(".txt") || value.lowercase().endsWith(".csv")) && this.rbImport.isSelected
             this.fillTable()
         }
@@ -90,6 +87,33 @@ class ApiController : Initializable {
             val value = this.txtFile.text
             this.tblColumns.isVisible = (value.lowercase().endsWith(".txt") || value.lowercase().endsWith(".csv")) && this.rbImport.isSelected
             this.fillTable()
+        }
+
+        this.cmdExecute.setOnAction {
+            try {
+                val file = File(this.txtFile.text)
+                if(file.exists() && this.rbImport.isSelected) {
+                    when(file.extension) {
+                        "csv" -> this.executeCSVOrTXTImport(this.tblColumns.items, file)
+                        "txt" -> this.executeCSVOrTXTImport(this.tblColumns.items, file)
+                        "xml" -> this.executeXMLImport(file)
+                        "vcf" -> this.executeVCFImport(file)
+                        "ics" -> this.executeICSImport(file)
+                    }
+                } else if(this.rbExport.isSelected) {
+                    when (file.extension) {
+                        "csv" -> this.executeCSVOrTXTExport(file)
+                        "txt" -> this.executeCSVOrTXTExport(file)
+                        "xml" -> this.executeXMLExport(file)
+                        "pdf" -> this.executePDFExport(file)
+                        "vcf" -> this.executeVCFExport(file)
+                        "ics" -> this.executeICSExport(file)
+
+                    }
+                }
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
+            }
         }
     }
 
@@ -129,19 +153,61 @@ class ApiController : Initializable {
     private fun fillTable() {
         this.tblColumns.items.clear()
         try {
-            val content = Files.readString(Path.of(URI.create(this.txtFile.text)))
-            val header = content.split("\n")[0]
-            val columns = header.split(";")
-            var number = 1
-            columns.forEach { column ->
-                var item = ""
-                this.items.forEach { if(it.lowercase().contains(column.lowercase())) item = it}
-                this.tblColumns.items.add(Item(number, column, item))
-                number += 1
+            val file = File(this.txtFile.text)
+            if(file.exists()) {
+                val content = Files.readString(file.toPath())
+                val header = content.split("\n")[0]
+                val columns = header.split(";")
+                var number = 1
+                columns.forEach { column ->
+                    var item = ""
+                    this.items.forEach { if(it.lowercase().contains(column.lowercase())) item = it}
+
+                    if(column.isNotEmpty()) {
+                        this.tblColumns.items.add(Item(number, column, item))
+                    }
+                    number += 1
+                }
             }
         } catch (ex: Exception) {
             FXHelper.printNotification(ex)
         }
+    }
+
+    private fun executeCSVOrTXTImport(item: List<Item>, file: File) {
+
+    }
+
+    private fun executeXMLImport(file: File) {
+        throw NotImplementedError(file.name)
+    }
+
+    private fun executeVCFImport(file: File) {
+        throw NotImplementedError(file.name)
+    }
+
+    private fun executeICSImport(file: File) {
+        throw NotImplementedError(file.name)
+    }
+
+    private fun executeCSVOrTXTExport(file: File) {
+        throw NotImplementedError(file.name)
+    }
+
+    private fun executeXMLExport(file: File) {
+        throw NotImplementedError(file.name)
+    }
+
+    private fun executePDFExport(file: File) {
+        throw NotImplementedError(file.name)
+    }
+
+    private fun executeVCFExport(file: File) {
+        throw NotImplementedError(file.name)
+    }
+
+    private fun executeICSExport(file: File) {
+        throw NotImplementedError(file.name)
     }
 
     companion object {
@@ -159,6 +225,6 @@ class ApiController : Initializable {
             stage.showAndWait()
         }
     }
-
-    private data class Item(val no: Int, val title: String, val column: String)
 }
+
+data class Item(var no: Int, var title: String, var column: String)
