@@ -18,6 +18,7 @@ module de.dojodev.royalrangermanager {
     requires org.xerial.sqlitejdbc;
     requires java.sql;
     requires org.slf4j;
+    requires ch.qos.logback.core;
     requires java.prefs;
 
     opens de.dojodev.royalrangermanager to javafx.fxml;
