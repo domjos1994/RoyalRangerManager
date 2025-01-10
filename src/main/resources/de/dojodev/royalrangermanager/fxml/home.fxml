@@ -24,19 +24,19 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <Label layoutX="154.0" layoutY="102.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.name" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <Label layoutX="91.0" layoutY="166.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.gender" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="35.0" />
-                  <Label layoutX="77.0" layoutY="130.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.birthdate" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="65.0" />
-                  <TextField fx:id="txtPersonFirstName" layoutX="134.0" layoutY="217.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" promptText="%person.firstName" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="5.0" />
-                  <TextField fx:id="txtPersonMiddleName" layoutX="61.0" layoutY="287.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" promptText="%person.middleName" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="5.0" />
-                  <TextField fx:id="txtPersonLastName" layoutX="141.0" layoutY="232.0" promptText="%person.lastName" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <ComboBox fx:id="cmbPersonGender" layoutX="160.0" layoutY="269.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
-                  <DatePicker fx:id="dtPersonBirthdate" layoutX="153.0" layoutY="234.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="65.0" />
-                  <Label layoutX="91.0" layoutY="212.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.team" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="95.0" />
-                  <ComboBox fx:id="cmbPersonTeam" layoutX="198.0" layoutY="264.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="95.0" />
-                  <Label layoutX="82.0" layoutY="239.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%ageGroup" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="125.0" />
-                  <ComboBox fx:id="cmbPersonAgeGroup" layoutX="140.0" layoutY="239.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="125.0" />
-                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="155.0">
+                  <Label layoutX="154.0" layoutY="102.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.name" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="35.0" />
+                  <Label layoutX="91.0" layoutY="166.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%user.gender" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="65.0" />
+                  <Label layoutX="77.0" layoutY="130.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.birthdate" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="95.0" />
+                  <TextField fx:id="txtPersonFirstName" layoutX="134.0" layoutY="217.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" promptText="%person.firstName" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="35.0" />
+                  <TextField fx:id="txtPersonMiddleName" layoutX="61.0" layoutY="287.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" promptText="%person.middleName" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="35.0" />
+                  <TextField fx:id="txtPersonLastName" layoutX="141.0" layoutY="232.0" promptText="%person.lastName" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
+                  <ComboBox fx:id="cmbPersonGender" layoutX="160.0" layoutY="269.0" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="65.0" />
+                  <DatePicker fx:id="dtPersonBirthdate" layoutX="153.0" layoutY="234.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="95.0" />
+                  <Label layoutX="91.0" layoutY="212.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.team" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="125.0" />
+                  <ComboBox fx:id="cmbPersonTeam" layoutX="198.0" layoutY="264.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="125.0" />
+                  <Label layoutX="82.0" layoutY="239.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%ageGroup" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="155.0" />
+                  <ComboBox fx:id="cmbPersonAgeGroup" layoutX="140.0" layoutY="239.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="155.0" />
+                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="185.0">
                     <tabs>
                       <Tab text="%person.accessibility">
                         <content>
@@ -87,6 +87,12 @@
                         </Tab>
                     </tabs>
                   </TabPane>
+                  <Label layoutX="27.0" layoutY="39.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.childNumber" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="65.0" />
+                  <TextField fx:id="txtPersonChildNumber" layoutX="110.0" layoutY="35.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="65.0" />
+                  <Label layoutX="41.0" layoutY="14.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.memberId" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <TextField fx:id="txtPersonMemberId" layoutX="116.0" layoutY="5.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Label layoutX="251.0" layoutY="99.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.entryDate" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="95.0" />
+                  <DatePicker fx:id="dtPersonEntryDate" layoutX="254.0" layoutY="95.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="95.0" />
                </children>
             </AnchorPane>
         </items>

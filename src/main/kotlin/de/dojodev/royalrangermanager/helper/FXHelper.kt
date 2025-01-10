@@ -1,5 +1,6 @@
 package de.dojodev.royalrangermanager.helper
 
+
 import de.dojodev.royalrangermanager.controller.MainController
 import de.dojodev.royalrangermanager.controller.SubController
 import javafx.fxml.FXMLLoader
@@ -12,9 +13,7 @@ import javafx.stage.Stage
 import org.controlsfx.control.Notifications
 import org.controlsfx.glyphfont.FontAwesome
 import org.kordamp.ikonli.javafx.FontIcon
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import ch.qos.logback.core.encoder.LayoutWrappingEncoder
 import java.io.File
 import java.net.URLClassLoader
 import java.util.*
@@ -148,16 +147,6 @@ class FXHelper {
             val icon = FontIcon("fa-${glyph.name.lowercase()}")
             icon.iconSize = 16
             cmd.graphic = icon
-        }
-
-        fun getLogger() {
-            // root-logger
-            val rootLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger
-
-            // encoder
-            val encoder = LayoutWrappingEncoder<Logger>()
-            encoder.setPattern("%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n")
-            encoder.start()
         }
     }
 }

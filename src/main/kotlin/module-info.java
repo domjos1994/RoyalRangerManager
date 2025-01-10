@@ -26,5 +26,6 @@ module de.dojodev.royalrangermanager {
     opens de.dojodev.royalrangermanager.db.model;
     opens de.dojodev.royalrangermanager.db.mapper;
     opens de.dojodev.royalrangermanager.repositories;
+    opens de.dojodev.royalrangermanager.helper to ch.qos.logback.core;
     exports de.dojodev.royalrangermanager;
 }

@@ -85,6 +85,11 @@ class PeopleRepository(
         }
 
 
+        // memberId is empty
+        if(person.memberId.isEmpty()) {
+            throw Exception(FXHelper.getBundle().getString("sys.person.dataMemberId"))
+        }
+
         // name is empty
         if(person.firstName.isEmpty()) {
             throw Exception(FXHelper.getBundle().getString("sys.person.dataFirstName"))
@@ -92,6 +97,11 @@ class PeopleRepository(
 
         if(person.lastName.isEmpty()) {
             throw Exception(FXHelper.getBundle().getString("sys.person.dataLastName"))
+        }
+
+        // child-number
+        if(person.childNumber !in 1..20) {
+            throw Exception(FXHelper.getBundle().getString("sys.person.dataChildNumber"))
         }
 
         // gender is empty
@@ -106,6 +116,18 @@ class PeopleRepository(
             val current = Date()
             if(current.before(person.birthDate)) {
                 throw Exception(FXHelper.getBundle().getString("sys.person.dataBirthDayInPast"))
+            }
+        }
+
+        // entryDate not null and between birthdate and current date
+        val entry = person.entryDate
+        if(entry == null) {
+            throw Exception(FXHelper.getBundle().getString("sys.person.dataEntryDate"))
+        } else {
+            val current = Date()
+            val birthDate = person.birthDate
+            if(birthDate?.after(entry)!! || current.before(entry)) {
+                throw Exception(FXHelper.getBundle().getString("sys.person.dataEntryDataBeforeBirthDayAndNow"))
             }
         }
 

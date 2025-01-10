@@ -17,10 +17,10 @@ interface PeopleMapper {
 
     @Insert(
         "INSERT INTO people(" +
-            "firstName, middleName, lastName, gender, birthDate, notes, description, " +
+            "memberId, firstName, middleName, lastName, childNumber, gender, birthDate, entryDate, notes, description, " +
             "medicines, email, phone, street, number, locality, postalCode, ageGroupId, teamId" +
         ") VALUES(" +
-            "#{firstName}, #{middleName}, #{lastName}, #{gender}, #{birthDate}, #{notes}, #{description}, " +
+            "#{memberId}, #{firstName}, #{middleName}, #{lastName}, #{childNumber}, #{gender}, #{birthDate}, #{entryDate}, #{notes}, #{description}, " +
             "#{medicines}, #{email}, #{phone}, #{street}, #{number}, #{locality}, #{postalCode}, #{ageGroupId}, #{teamId}" +
         ")"
     )
@@ -32,8 +32,8 @@ interface PeopleMapper {
 
     @Update(
         "UPDATE people SET " +
-                "firstName=#{firstName}, middleName=#{middleName}, lastName=#{lastName}, gender=#{gender}, " +
-                "birthDate=#{birthDate}, notes=#{notes}, description=#{description}, " +
+                "memberId=#{memberId}, firstName=#{firstName}, middleName=#{middleName}, lastName=#{lastName}, childNumber=#{childNumber}, gender=#{gender}, " +
+                "birthDate=#{birthDate}, entryDate=#{entryDate}, notes=#{notes}, description=#{description}, " +
                 "medicines=#{medicines}, email=#{email}, phone=#{phone}, street=#{street}, number=#{number}, " +
                 "locality=#{locality}, postalCode=#{postalCode}, ageGroupId=#{ageGroupId}, teamId=#{teamId} " +
         "WHERE id=#{id}"

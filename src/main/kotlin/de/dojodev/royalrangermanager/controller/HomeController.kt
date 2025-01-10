@@ -23,11 +23,14 @@ import java.util.Locale
 
 class HomeController : SubController() {
     @FXML private lateinit var tblPeople: TableView<Person>
+    @FXML private lateinit var txtPersonMemberId: TextField
     @FXML private lateinit var txtPersonFirstName: TextField
     @FXML private lateinit var txtPersonMiddleName: TextField
     @FXML private lateinit var txtPersonLastName: TextField
+    @FXML private lateinit var txtPersonChildNumber: TextField
     @FXML private lateinit var cmbPersonGender: ComboBox<String>
     @FXML private lateinit var dtPersonBirthdate: DatePicker
+    @FXML private lateinit var dtPersonEntryDate: DatePicker
     @FXML private lateinit var txtPersonEmail: TextField
     @FXML private lateinit var txtPersonPhone: TextField
     @FXML private lateinit var txtPersonStreet: TextField
@@ -108,7 +111,7 @@ class HomeController : SubController() {
         this.cmdNew = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.PLUS) {
             try {
                 val newPerson = Person(
-                    0, "", "", "", 0, null
+                    0, "", "", "", "", 0,0, null, null
                 )
                 newPerson.emergencyContacts.add(EmergencyContact(0, "", "", ""))
                 this.control(
@@ -154,11 +157,14 @@ class HomeController : SubController() {
 
         this.cmdSave = super.addIconButton(org.controlsfx.glyphfont.FontAwesome.Glyph.SAVE) {
             try {
+                this.selectedPerson?.memberId = txtPersonMemberId.text
                 this.selectedPerson?.firstName = txtPersonFirstName.text
                 this.selectedPerson?.middleName = txtPersonMiddleName.text
                 this.selectedPerson?.lastName = txtPersonLastName.text
+                this.selectedPerson?.childNumber = Integer.parseInt(txtPersonChildNumber.text)
                 this.selectedPerson?.gender = Converter.genderToInt(cmbPersonGender.selectionModel.selectedItem)
                 this.selectedPerson?.birthDate = Converter.localDateToDate(this.dtPersonBirthdate.value)
+                this.selectedPerson?.entryDate = Converter.localDateToDate(this.dtPersonEntryDate.value)
                 this.selectedPerson?.email = this.txtPersonEmail.text
                 this.selectedPerson?.phone = this.txtPersonPhone.text
                 this.selectedPerson?.street = this.txtPersonStreet.text
@@ -190,11 +196,14 @@ class HomeController : SubController() {
 
         if(reset) {
             this.tblPeople.selectionModel.clearSelection()
+            this.txtPersonMemberId.text = ""
             this.txtPersonFirstName.text = ""
             this.txtPersonMiddleName.text = ""
             this.txtPersonLastName.text = ""
+            this.txtPersonChildNumber.text = "1"
             this.cmbPersonGender.selectionModel.clearSelection()
             this.dtPersonBirthdate.value = null
+            this.dtPersonEntryDate.value = null
             this.txtPersonEmail.text = ""
             this.txtPersonPhone.text = ""
             this.txtPersonStreet.text = ""
@@ -210,11 +219,14 @@ class HomeController : SubController() {
         } else {
             if(person != null) {
                 this.selectedPerson = person
+                this.txtPersonMemberId.text = this.selectedPerson?.memberId ?: ""
                 this.txtPersonFirstName.text = this.selectedPerson?.firstName ?: ""
                 this.txtPersonMiddleName.text = this.selectedPerson?.middleName ?: ""
                 this.txtPersonLastName.text = this.selectedPerson?.lastName ?: ""
+                this.txtPersonChildNumber.text = this.selectedPerson?.childNumber.toString()
                 this.cmbPersonGender.selectionModel.select(Converter.intToGender(this.selectedPerson?.gender ?: 0))
                 this.dtPersonBirthdate.value = Converter.dateToLocalDate(this.selectedPerson?.birthDate)
+                this.dtPersonEntryDate.value = Converter.dateToLocalDate(this.selectedPerson?.entryDate)
                 this.txtPersonEmail.text = this.selectedPerson?.email ?: ""
                 this.txtPersonPhone.text = this.selectedPerson?.phone ?: ""
                 this.txtPersonStreet.text = this.selectedPerson?.street ?: ""
@@ -239,10 +251,13 @@ class HomeController : SubController() {
     override fun initBindings() {
         this.cmdEdit.disableProperty()?.bindBidirectional(this.cmdDelete.disableProperty())
 
+        this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonMemberId.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonMiddleName.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonLastName.disableProperty())
+        this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonChildNumber.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.cmbPersonGender.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.dtPersonBirthdate.disableProperty())
+        this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.dtPersonEntryDate.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonEmail.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonPhone.disableProperty())
         this.txtPersonFirstName.disableProperty()?.bindBidirectional(this.txtPersonStreet.disableProperty())
@@ -344,6 +359,21 @@ class HomeController : SubController() {
     override fun initValidator() {
         this.validator
             .createCheck()
+            .dependsOn("memberId", this.txtPersonMemberId.textProperty())
+            .withMethod { c ->
+                try {
+                    val text = c.get<String>("memberId")
+                    if(text.isEmpty()) {
+                        throw Exception()
+                    }
+                } catch (_: Exception) {
+                    c.error(FXHelper.getBundle().getString("sys.person.dataMemberId"))
+                }
+            }
+            .decorates(this.txtPersonMemberId)
+            .immediate()
+        this.validator
+            .createCheck()
             .dependsOn("firstName", this.txtPersonFirstName.textProperty())
             .withMethod { c ->
                 val firstName = c.get<String>("firstName")
@@ -386,6 +416,26 @@ class HomeController : SubController() {
 
         this.validator
             .createCheck()
+            .dependsOn("childNumber", this.txtPersonChildNumber.textProperty())
+            .withMethod { c ->
+                try {
+                    val text = c.get<String>("childNumber")
+                    if(text.isEmpty()) {
+                        throw Exception()
+                    }
+                    val childNumber = text.toInt()
+                    if(childNumber !in 1..20) {
+                        throw Exception()
+                    }
+                } catch (_: Exception) {
+                    c.error(FXHelper.getBundle().getString("sys.person.dataChildNumber"))
+                }
+            }
+            .decorates(this.txtPersonChildNumber)
+            .immediate()
+
+        this.validator
+            .createCheck()
             .dependsOn("birthDate", this.dtPersonBirthdate.valueProperty())
             .withMethod { c ->
                 val date = c.get<LocalDate>("birthDate")
@@ -404,6 +454,30 @@ class HomeController : SubController() {
                 }
             }
             .decorates(this.dtPersonBirthdate)
+            .immediate()
+
+        this.validator
+            .createCheck()
+            .dependsOn("birthDate", this.dtPersonBirthdate.valueProperty())
+            .dependsOn("entryDate", this.dtPersonEntryDate.valueProperty())
+            .withMethod { c ->
+                val birthDate = c.get<LocalDate>("birthDate")
+                val entryDate = c.get<LocalDate>("entryDate")
+                val currentDate = LocalDate.now()
+
+                if(entryDate == null) {
+                    c.error(FXHelper.getBundle().getString("sys.person.dataEntryDate"))
+                } else {
+                    if(birthDate == null) {
+                        c.error(FXHelper.getBundle().getString("sys.person.dataEntryDataBeforeBirthDayAndNow"))
+                    } else {
+                        if(birthDate.isAfter(entryDate) || currentDate.isBefore(entryDate)) {
+                            c.error(FXHelper.getBundle().getString("sys.person.dataEntryDataBeforeBirthDayAndNow"))
+                        }
+                    }
+                }
+            }
+            .decorates(this.dtPersonEntryDate)
             .immediate()
 
         this.validator

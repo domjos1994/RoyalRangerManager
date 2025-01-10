@@ -50,11 +50,14 @@ CREATE TABLE teams_users(
 -- people tables
 CREATE TABLE people(
     ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    memberId VARCHAR(255) NOT NULL,
     firstName VARCHAR(255) NOT NULL,
     middleName VARCHAR(255) DEFAULT '',
     lastName VARCHAR(255) NOT NULL,
+    childNumber INTEGER DEFAULT 1,
     gender INTEGER NOT NULL,
     birthDate DATE NOT NULL,
+    entryDate DATE NOT NULL,
     notes TEXT DEFAULT '',
     description TEXT DEFAULT '',
     medicines TEXT DEFAULT '',
@@ -83,6 +86,13 @@ CREATE TABLE people_emergencyContacts(
     emergencyContactId INTEGER NOT NULL,
     FOREIGN KEY (personId) REFERENCES people(ID) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (emergencyContactId) REFERENCES emergencyContacts(ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE rules(
+    ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    childNumber INT DEFAULT -1,
+    price DOUBLE DEFAULT 0.0,
+    start DATE DEFAULT NULL
 );
 
 -- this is the last line

@@ -16,6 +16,7 @@ import javafx.scene.control.TableView
 import javafx.scene.control.TextField
 import javafx.scene.control.cell.ComboBoxTableCell
 import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.image.Image
 import javafx.stage.FileChooser
 import javafx.stage.Modality
 import javafx.stage.Stage
@@ -218,6 +219,7 @@ class ApiController : Initializable {
             val scene = Scene(root)
             val stage = Stage()
             stage.title = FXHelper.getBundle().getString("main.system.api")
+            stage.icons.add(Image(this::class.java.getResourceAsStream("/icons/icon.png")))
             stage.initModality(Modality.NONE)
             stage.initStyle(StageStyle.DECORATED)
             stage.initOwner(FXHelper.getStage())

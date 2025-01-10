@@ -13,6 +13,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
+import javafx.scene.image.Image
 import javafx.scene.input.KeyCode
 import javafx.stage.Modality
 import javafx.stage.Stage
@@ -116,6 +117,8 @@ class LoginController : Initializable {
             val root = loader.load<Parent>()
             val scene = Scene(root)
             val stage = Stage()
+            stage.icons.add(Image(this::class.java.getResourceAsStream("/icons/icon.png")))
+            stage.title = FXHelper.getBundle().getString("name")
             stage.setOnHiding {
                 if(!updatePassword && result != 1) {
                     exitProcess(0)

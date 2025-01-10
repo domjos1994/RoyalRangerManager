@@ -50,11 +50,14 @@ CREATE TABLE teams_users(
 -- people tables
 CREATE TABLE people(
     ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    memberId VARCHAR(255) NOT NULL,
     firstName VARCHAR(255) NOT NULL,
     middleName VARCHAR(255) DEFAULT '',
     lastName VARCHAR(255) NOT NULL,
+    childNumber INTEGER DEFAULT 1,
     gender INT NOT NULL,
     birthDate DATE NOT NULL,
+    entryDate DATE NOT NULL,
     notes TEXT DEFAULT '',
     description TEXT DEFAULT '',
     medicines TEXT DEFAULT '',
@@ -83,6 +86,13 @@ CREATE TABLE people_emergencyContacts(
     emergencyContactId INT NOT NULL,
     FOREIGN KEY (personId) REFERENCES people(ID) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (emergencyContactId) REFERENCES emergencyContacts(ID) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE rules(
+    ID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    childNumber INT DEFAULT -1,
+    price DOUBLE DEFAULT 0.0,
+    start DATE DEFAULT NULL
 ) ENGINE=INNODB;
 
 -- this is the last line
