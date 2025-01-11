@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dojodev.royalrangermanager.controller.RulesController">
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="141.0" layoutY="105.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TableView fx:id="tblRules" layoutY="40.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TextField fx:id="txtRuleChildNumber" layoutX="226.0" layoutY="47.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Label layoutX="68.0" layoutY="51.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%person.childNumber" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Label layoutX="50.0" layoutY="168.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%rules.price" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="35.0" />
+                  <TextField fx:id="txtRulePrice" layoutX="209.0" layoutY="144.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
+                  <Label layoutX="50.0" layoutY="245.0" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="%rules.start" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="65.0" />
+                  <DatePicker fx:id="dtRuleStart" layoutX="163.0" layoutY="233.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="65.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

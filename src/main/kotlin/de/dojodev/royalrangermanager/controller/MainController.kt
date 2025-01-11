@@ -37,6 +37,7 @@ class MainController : Initializable {
     @FXML private lateinit var mnuSystem: Menu
     @FXML private lateinit var mnuSystemUsers: MenuItem
     @FXML private lateinit var mnuSystemTeams: MenuItem
+    @FXML private lateinit var mnuSystemRules: MenuItem
     @FXML private lateinit var mnuSystemApi: MenuItem
 
     // toolbar
@@ -49,6 +50,7 @@ class MainController : Initializable {
     @FXML private lateinit var tbSettings: Tab
     @FXML private lateinit var tbUsers: Tab
     @FXML private lateinit var tbTeams: Tab
+    @FXML private lateinit var tbRules: Tab
 
     @FXML lateinit var pbMain: ProgressBar
     @FXML private lateinit var lblProject: Label
@@ -58,6 +60,7 @@ class MainController : Initializable {
     @FXML private lateinit var homeController: HomeController
     @FXML private lateinit var usersController: UsersController
     @FXML private lateinit var teamsController: TeamsController
+    @FXML private lateinit var rulesController: RulesController
 
     private var controllers = mutableMapOf<String, SubController>()
 
@@ -70,6 +73,7 @@ class MainController : Initializable {
         controllers[FXHelper.getBundle().getString("main.program.settings")] = settingsController
         controllers[FXHelper.getBundle().getString("main.system.user")] = usersController
         controllers[FXHelper.getBundle().getString("main.system.teams")] = teamsController
+        controllers[FXHelper.getBundle().getString("main.system.rules")] = rulesController
         FXHelper.initSubControllers(this, controllers.values.toList())
         this.homeController.initIsActive()
         this.homeController.initControls()
@@ -178,9 +182,11 @@ class MainController : Initializable {
                 if(user == null) {
                     this.mnuSystemTeams.isDisable = true
                     this.mnuSystemApi.isDisable = true
+                    this.mnuSystemRules.isDisable = true
                 } else {
                     this.mnuSystemTeams.isDisable = !user.isSeniorLeader()
                     this.mnuSystemApi.isDisable = !user.isSeniorLeader()
+                    this.mnuSystemRules.isDisable = !user.isSeniorLeader()
                 }
             } catch (ex: Exception) {
                 FXHelper.printNotification(ex)
@@ -193,6 +199,10 @@ class MainController : Initializable {
 
         this.mnuSystemTeams.setOnAction {
             this.tbcMain.selectionModel.select(this.tbTeams)
+        }
+
+        this.mnuSystemRules.setOnAction {
+            this.tbcMain.selectionModel.select(this.tbRules)
         }
 
         this.mnuSystemApi.setOnAction {
