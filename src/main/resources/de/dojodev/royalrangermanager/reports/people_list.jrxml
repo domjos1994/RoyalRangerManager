@@ -1,0 +1,138 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="people_list" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a12aa9d6-a253-47b4-b302-84380ba42367">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="RRM"/>
+	<query language="SQL"><![CDATA[SELECT people."firstName",
+	people."middleName",
+	people."lastName",
+	people."childNumber",
+	people.gender,
+	people."birthDate",
+	people."entryDate",
+	people.notes,
+	people.description,
+	people.medicines,
+	people.email,
+	people.phone,
+	people.street,
+	people.number,
+	people.locality,
+	people."postalCode",
+	teams.name
+FROM people
+	INNER JOIN teams ON 
+	 teams."ID" = people."ID"]]></query>
+	<field name="firstName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="firstName"/>
+		<property name="com.jaspersoft.studio.field.label" value="firstName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="middleName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="middleName"/>
+		<property name="com.jaspersoft.studio.field.label" value="middleName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="lastName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="lastName"/>
+		<property name="com.jaspersoft.studio.field.label" value="lastName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="childNumber" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="childNumber"/>
+		<property name="com.jaspersoft.studio.field.label" value="childNumber"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="gender" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="gender"/>
+		<property name="com.jaspersoft.studio.field.label" value="gender"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="birthDate" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="birthDate"/>
+		<property name="com.jaspersoft.studio.field.label" value="birthDate"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="entryDate" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="entryDate"/>
+		<property name="com.jaspersoft.studio.field.label" value="entryDate"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="notes" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="notes"/>
+		<property name="com.jaspersoft.studio.field.label" value="notes"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="description"/>
+		<property name="com.jaspersoft.studio.field.label" value="description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="medicines" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="medicines"/>
+		<property name="com.jaspersoft.studio.field.label" value="medicines"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="email"/>
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="phone" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="phone"/>
+		<property name="com.jaspersoft.studio.field.label" value="phone"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="street" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="street"/>
+		<property name="com.jaspersoft.studio.field.label" value="street"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="number"/>
+		<property name="com.jaspersoft.studio.field.label" value="number"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="locality" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="locality"/>
+		<property name="com.jaspersoft.studio.field.label" value="locality"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="postalCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="postalCode"/>
+		<property name="com.jaspersoft.studio.field.label" value="postalCode"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="people"/>
+	</field>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="teams"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="staticText" uuid="ebfadaba-9c73-49f4-b275-303b27d4876c" x="-20" y="0" width="595" height="79" rotation="None" fontName="DejaVu Serif" fontSize="33.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Person-List]]></text>
+		</element>
+	</title>
+	<pageHeader height="35" splitType="Stretch"/>
+	<columnHeader height="20" splitType="Stretch">
+		<element kind="staticText" uuid="46b9fc32-fc11-4180-b627-5603b712d90d" x="0" y="0" width="100" height="20" bold="true" vTextAlign="Justified">
+			<text><![CDATA[FirstName]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9e5002f4-dc03-4160-ab86-3ae9f8ddfac8"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<element kind="textField" uuid="df73421d-0d1a-4f00-b18c-647fa6f7dbea" x="0" y="0" width="100" height="15">
+				<expression><![CDATA[$F{firstName}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9e5002f4-dc03-4160-ab86-3ae9f8ddfac8"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>

@@ -5,6 +5,7 @@ import de.dojodev.royalrangermanager.helper.DBHelper
 import de.dojodev.royalrangermanager.helper.FXHelper
 import de.dojodev.royalrangermanager.helper.Project
 import de.dojodev.royalrangermanager.helper.Settings
+import de.dojodev.royalrangermanager.reporting.ReportHelper
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.Button
@@ -39,6 +40,10 @@ class MainController : Initializable {
     @FXML private lateinit var mnuSystemTeams: MenuItem
     @FXML private lateinit var mnuSystemRules: MenuItem
     @FXML private lateinit var mnuSystemApi: MenuItem
+
+    // reports
+    @FXML private lateinit var mnuReports: Menu
+    @FXML private lateinit var mnuReportsPeopleList: MenuItem
 
     // toolbar
     @FXML lateinit var toolMain: ToolBar
@@ -207,6 +212,24 @@ class MainController : Initializable {
 
         this.mnuSystemApi.setOnAction {
             ApiController.createDialog()
+        }
+
+        this.mnuReports.setOnShowing {
+            try {
+                val user = Project.get().getUser()
+                this.mnuReportsPeopleList.isDisable = user == null
+                if(user == null) {
+                    this.mnuReportsPeopleList.isDisable = true
+                } else {
+                    this.mnuReportsPeopleList.isDisable = !user.isSeniorLeader()
+                }
+            } catch (ex: Exception) {
+                FXHelper.printNotification(ex)
+            }
+        }
+
+        this.mnuReportsPeopleList.setOnAction {
+            val helper = ReportHelper("/reports/people_list.jrxml", FXHelper.getStage())
         }
 
         this.tbcMain.selectionModel.selectedItemProperty().addListener { _, _, c ->

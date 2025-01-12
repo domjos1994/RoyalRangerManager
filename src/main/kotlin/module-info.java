@@ -21,6 +21,10 @@ module de.dojodev.royalrangermanager {
     requires ch.qos.logback.core;
     requires java.prefs;
 
+    requires net.sf.jasperreports.core;
+    requires net.sf.jasperreports.fonts;
+    requires jrviewer.fx;
+
     opens de.dojodev.royalrangermanager to javafx.fxml;
     opens de.dojodev.royalrangermanager.controller to javafx.fxml, javafx.base;
     opens de.dojodev.royalrangermanager.db.model;

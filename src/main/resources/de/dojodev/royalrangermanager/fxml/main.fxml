@@ -54,6 +54,9 @@
                 <SeparatorMenuItem mnemonicParsing="false" />
                 <MenuItem fx:id="mnuSystemApi" mnemonicParsing="false" text="%main.system.api"/>
             </Menu>
+            <Menu fx:id="mnuReports" mnemonicParsing="false" text="%main.reports">
+                <MenuItem fx:id="mnuReportsPeopleList" mnemonicParsing="false" text="%main.reports.people_list"/>
+            </Menu>
         </menus>
       </MenuBar>
       <ToolBar fx:id="toolMain" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">

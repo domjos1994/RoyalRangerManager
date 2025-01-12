@@ -17,6 +17,8 @@
         <javafx.version>21.0.5</javafx.version>
         <slf4j.version>1.7.36</slf4j.version>
         <logback.version>1.5.16</logback.version>
+
+        <jasper.version>7.0.1</jasper.version>
     </properties>
 
     <dependencies>
@@ -165,6 +167,23 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
             <version>${logback.version}</version>
+        </dependency>
+
+        <!-- Reporting -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>${jasper.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>${jasper.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>win.zqxu</groupId>
+            <artifactId>jrviewer-fx</artifactId>
+            <version>0.1.1</version>
         </dependency>
     </dependencies>
 
